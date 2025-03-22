@@ -6,13 +6,18 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+
     public function login()
     {
-        return view('login');
+        return view('authentication.login');
     }
 
     public function index()
     {
-        return view('home');
+        $session = session('user');
+        $data = [
+            'session ' => $session,
+        ];
+        return view('index', $data);
     }
 }

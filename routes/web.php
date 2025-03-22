@@ -23,4 +23,4 @@ Route::get('/', [MainController::class, 'index'])->name('index');
 
 //Login Features
 Route::post('login-process', [LoginController::class, 'loginProcess'])->name('login-process');
-Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');

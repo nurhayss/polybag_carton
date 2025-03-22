@@ -10,7 +10,6 @@ class LoginService
 {
     public function login(array $credentials): bool
     {
-        // Validasi data, dan pakai hasil validasi
         $validated = $this->validateData($credentials);
 
         $user = User::where('email', $validated['email'])->first();
