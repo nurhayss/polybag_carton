@@ -24,3 +24,6 @@ Route::get('/', [MainController::class, 'index'])->name('index');
 //Login Features
 Route::post('login-process', [LoginController::class, 'loginProcess'])->name('login-process');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+//Form Features
+Route::get('new-form', [MainController::class, 'newForm'])->name('new-form');

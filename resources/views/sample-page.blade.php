@@ -130,8 +130,7 @@
             <div class="d-flex">
               <div class="unlimited-access-title me-3">
                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-75">Upgrade to pro</h6>
-                <a href="#" target="_blank"
-                  class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
+                <a href="#" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
               </div>
               <div class="unlimited-access-img">
                 <img src="../assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -164,10 +163,10 @@
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <a href="#" target="_blank"
-                class="btn btn-primary me-2"><span class="d-none d-md-block">Check Pro Version</span> <span class="d-block d-md-none">Pro</span></a>
-              <a href="#" target="_blank"
-                class="btn btn-success"><span class="d-none d-md-block">Download Free </span> <span class="d-block d-md-none">Free</span></a>
+              <a href="#" target="_blank" class="btn btn-primary me-2"><span class="d-none d-md-block">Check Pro
+                  Version</span> <span class="d-block d-md-none">Pro</span></a>
+              <a href="#" target="_blank" class="btn btn-success"><span class="d-none d-md-block">Download Free </span>
+                <span class="d-block d-md-none">Free</span></a>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -199,39 +198,14 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Buttons</h5>
-            <div class="card">
-              <div class="card-body p-4">
-                <button type="button" class="btn btn-primary m-1">Primary</button>
-                <button type="button" class="btn btn-secondary m-1">Secondary</button>
-                <button type="button" class="btn btn-success m-1">Success</button>
-                <button type="button" class="btn btn-danger m-1">Danger</button>
-                <button type="button" class="btn btn-warning m-1">Warning</button>
-                <button type="button" class="btn btn-info m-1">Info</button>
-                <button type="button" class="btn btn-light m-1">Light</button>
-                <button type="button" class="btn btn-dark m-1">Dark</button>
-                <button type="button" class="btn btn-link m-1">Link</button>
-              </div>
-            </div>
-            <h5 class="card-title fw-semibold mb-4">Outline buttons</h5>
-            <div class="card mb-0">
-              <div class="card-body p-4">
-                <button type="button" class="btn btn-outline-primary m-1">Primary</button>
-                <button type="button" class="btn btn-outline-secondary m-1">Secondary</button>
-                <button type="button" class="btn btn-outline-success m-1">Success</button>
-                <button type="button" class="btn btn-outline-danger m-1">Danger</button>
-                <button type="button" class="btn btn-outline-warning m-1">Warning</button>
-                <button type="button" class="btn btn-outline-info m-1">Info</button>
-                <button type="button" class="btn btn-outline-light m-1">Light</button>
-                <button type="button" class="btn btn-outline-dark m-1">Dark</button>
-                <button type="button" class="btn btn-outline-link m-1">Link</button>
-              </div>
-            </div>
+            <h5 class="card-title fw-semibold mb-4">Sample Page</h5>
+            <p class="mb-0">This is a sample page </p>
           </div>
         </div>
         <div class="py-6 px-6 text-center">
           <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank"
-              class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com/" target="_blank"
+              class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a
+              href="https://themewagon.com/" target="_blank"
               class="pe-1 text-primary text-decoration-underline">ThemeWagon</a></p>
         </div>
       </div>

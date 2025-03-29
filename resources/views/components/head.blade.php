@@ -6,4 +6,5 @@
     <link rel="stylesheet" href="{{ asset('../assets/images/logos/seodashlogo.png') }}" />
     <link rel="stylesheet" href="{{ asset('../assets/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('../assets/css/styles.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>

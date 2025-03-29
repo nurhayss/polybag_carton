@@ -130,8 +130,7 @@
             <div class="d-flex">
               <div class="unlimited-access-title me-3">
                 <h6 class="fw-semibold fs-4 mb-6 text-dark w-75">Upgrade to pro</h6>
-                <a href="#" target="_blank"
-                  class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
+                <a href="#" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
               </div>
               <div class="unlimited-access-img">
                 <img src="../assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
@@ -164,10 +163,10 @@
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <a href="#" target="_blank"
-                class="btn btn-primary me-2"><span class="d-none d-md-block">Check Pro Version</span> <span class="d-block d-md-none">Pro</span></a>
-              <a href="#" target="_blank"
-                class="btn btn-success"><span class="d-none d-md-block">Download Free </span> <span class="d-block d-md-none">Free</span></a>
+              <a href="#" target="_blank" class="btn btn-primary me-2"><span class="d-none d-md-block">Check Pro
+                  Version</span> <span class="d-block d-md-none">Pro</span></a>
+              <a href="#" target="_blank" class="btn btn-success"><span class="d-none d-md-block">Download Free </span>
+                <span class="d-block d-md-none">Free</span></a>
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -199,61 +198,40 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Forms</h5>
+            <h5 class="card-title fw-semibold mb-4">Buttons</h5>
             <div class="card">
-              <div class="card-body">
-                <form>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                  </div>
-                  <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+              <div class="card-body p-4">
+                <button type="button" class="btn btn-primary m-1">Primary</button>
+                <button type="button" class="btn btn-secondary m-1">Secondary</button>
+                <button type="button" class="btn btn-success m-1">Success</button>
+                <button type="button" class="btn btn-danger m-1">Danger</button>
+                <button type="button" class="btn btn-warning m-1">Warning</button>
+                <button type="button" class="btn btn-info m-1">Info</button>
+                <button type="button" class="btn btn-light m-1">Light</button>
+                <button type="button" class="btn btn-dark m-1">Dark</button>
+                <button type="button" class="btn btn-link m-1">Link</button>
               </div>
             </div>
-            <h5 class="card-title fw-semibold mb-4">Disabled forms</h5>
+            <h5 class="card-title fw-semibold mb-4">Outline buttons</h5>
             <div class="card mb-0">
-              <div class="card-body">
-                <form>
-                  <fieldset disabled>
-                    <legend>Disabled fieldset example</legend>
-                    <div class="mb-3">
-                      <label for="disabledTextInput" class="form-label">Disabled input</label>
-                      <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-                    </div>
-                    <div class="mb-3">
-                      <label for="disabledSelect" class="form-label">Disabled select menu</label>
-                      <select id="disabledSelect" class="form-select">
-                        <option>Disabled select</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
-                        <label class="form-check-label" for="disabledFieldsetCheck">
-                          Can't check this
-                        </label>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </fieldset>
-                </form>
+              <div class="card-body p-4">
+                <button type="button" class="btn btn-outline-primary m-1">Primary</button>
+                <button type="button" class="btn btn-outline-secondary m-1">Secondary</button>
+                <button type="button" class="btn btn-outline-success m-1">Success</button>
+                <button type="button" class="btn btn-outline-danger m-1">Danger</button>
+                <button type="button" class="btn btn-outline-warning m-1">Warning</button>
+                <button type="button" class="btn btn-outline-info m-1">Info</button>
+                <button type="button" class="btn btn-outline-light m-1">Light</button>
+                <button type="button" class="btn btn-outline-dark m-1">Dark</button>
+                <button type="button" class="btn btn-outline-link m-1">Link</button>
               </div>
             </div>
           </div>
         </div>
         <div class="py-6 px-6 text-center">
           <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank"
-              class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com/" target="_blank"
+              class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a
+              href="https://themewagon.com/" target="_blank"
               class="pe-1 text-primary text-decoration-underline">ThemeWagon</a></p>
         </div>
       </div>

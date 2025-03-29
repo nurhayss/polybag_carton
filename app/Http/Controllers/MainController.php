@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -16,7 +17,7 @@ class MainController extends Controller
     {
         $session = session('user');
         $data = [
-            'session ' => $session,
+            'session' => $session,
         ];
         return view('index', $data);
     }
