@@ -9,7 +9,7 @@
     <x-sidebar></x-sidebar>
     <div class="body-wrapper">
       <header class="app-header">
-        <x-navbar :session="$session"></x-navbar>
+        <x-navbar :session="$session">Dashboard</x-navbar>
       </header>
       <div class="container-fluid">
         <div class="card">

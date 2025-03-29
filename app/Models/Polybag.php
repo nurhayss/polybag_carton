@@ -11,6 +11,7 @@ class Polybag extends Model
     protected $table = 'polybags';
     protected $fillable = [
         'pack',
+        'size',
         'lenght',
         'width',
         'qty_order',

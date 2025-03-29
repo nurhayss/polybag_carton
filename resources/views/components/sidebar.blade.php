@@ -16,11 +16,12 @@
                 </li>
                 <x-sidelink route="index" icon="solar:home-smile-bold-duotone" label="Dashboard" />
 
-                <x-sidelink route="new-form" icon="solar:file-text-bold-duotone" label="Forms" />
-                <x-sidelink route="new-form" icon="solar:danger-circle-bold-duotone" label="Alerts" />
-                <x-sidelink route="new-form" icon="solar:bookmark-square-minimalistic-bold-duotone" label="Card" />
-                <x-sidelink route="new-form" icon="solar:file-text-bold-duotone" label="Forms" />
-                <x-sidelink route="new-form" icon="solar:text-field-focus-bold-duotone" label="Typography" />
+                <x-sidelink route="new-form" icon="solar:file-text-bold-duotone" label="Order Form" />
+                {{--
+                <x-sidelink route="a" icon="solar:danger-circle-bold-duotone" label="Alerts" />
+                <x-sidelink route="a" icon="solar:bookmark-square-minimalistic-bold-duotone" label="Card" />
+                <x-sidelink route="a" icon="solar:file-text-bold-duotone" label="Forms" />
+                <x-sidelink route="a" icon="solar:text-field-focus-bold-duotone" label="Typography" /> --}}
 
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-6"></i>

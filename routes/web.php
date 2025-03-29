@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,5 @@ Route::post('login-process', [LoginController::class, 'loginProcess'])->name('lo
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //Form Features
-Route::get('new-form', [MainController::class, 'newForm'])->name('new-form');
+Route::get('new-form', [FormController::class, 'newForm'])->name('new-form');
+Route::get('form-post', [FormController::class, 'formPost'])->name('form-post');
