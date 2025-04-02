@@ -12,7 +12,7 @@
         <x-navbar :session="$session">Dashboard</x-navbar>
       </header>
       <div class="container-fluid">
-        <div class="card">
+        <div class="card">  
           <div class="card-body">
             <div class="row">
               <table id="usersTable" class="table table-striped table-hover">

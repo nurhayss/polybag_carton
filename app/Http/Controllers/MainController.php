@@ -21,4 +21,22 @@ class MainController extends Controller
         ];
         return view('index', $data);
     }
+
+    public function newForm()
+    {
+        $session = session('user');
+        $data = [
+            'session' => $session
+        ];
+        return view('new-form', $data);
+    }
+
+    public function accountPage()
+    {
+        $session = session('user');
+        $data = [
+            'session' => $session
+        ];
+        return view('account-page', $data);
+    }
 }

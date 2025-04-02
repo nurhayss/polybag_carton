@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('polybags', function (Blueprint $table) {
             $table->id();
+            $table->integer('order_id');
             $table->string('pack');
             $table->integer('size');
             $table->integer('lenght');

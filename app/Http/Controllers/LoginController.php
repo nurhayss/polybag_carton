@@ -19,6 +19,7 @@ class LoginController extends Controller
             ])->withInput($request->only('email'));
     }
 
+
     public function logout()
     {
         $loginService = new LoginService();

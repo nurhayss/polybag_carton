@@ -6,9 +6,7 @@
         background-color: white;
         transition: all 0.3s ease-in-out;
         appearance: none;
-        /* Menghilangkan tampilan default */
         border-radius: 4px;
-        /* Bikin kotak, hilangkan border-radius kalau mau tajam */
         display: inline-block;
         position: relative;
         cursor: pointer;
@@ -43,11 +41,20 @@
         align-items: center;
         gap: 8px;
     }
+
+    .toggle-icon {
+        cursor: pointer;
+        font-size: 18px;
+    }
 </style>
 <form>
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div class="card-header text-white text-center py-3 bg-gradient bg-primary">
-            <h5 class="card-title fw-bold m-0 text-white"> Order Section</h5>
+        <div
+            class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
+            <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Order Section</h5>
+            <button class="btn btn-link p-0 border-0 shadow-lg toggle-btn ms-auto">
+                <i class="fa-solid fa-circle-chevron-down fs-6 text-white"></i>
+            </button>
         </div>
         <div class="card-body p-4">
             <div class="row">
@@ -94,11 +101,21 @@
             </div>
         </div>
     </div>
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div class="card-header text-white text-center py-3 bg-gradient bg-primary">
-            <h5 class="card-title fw-bold m-0 text-white"> Polybag Section</h5>
+    <div id="polybagContainer" class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div
+            class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
+            <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Polybag Section</h5>
+            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="addCardBtn">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="removeCardBtn">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button class="btn btn-link p-0 border-0 shadow-lg toggle-btn ms-auto">
+                <i class="fa-solid fa-circle-chevron-down fs-6 text-white"></i>
+            </button>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-4 d-none">
             <div class="row mt-3 mb-2">
                 <div class="col-12">
                     <div class="mb-3">
@@ -220,11 +237,21 @@
             </div>
         </div>
     </div>
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div class="card-header text-white text-center py-3 bg-gradient bg-primary">
-            <h5 class="card-title fw-bold m-0 text-white"> Carton Section</h5>
+    <div id="cartonSection" class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div
+            class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
+            <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Carton Section</h5>
+            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="addCartonBtn">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="removeCartonBtn">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button class="btn btn-link p-0 border-0 shadow-lg toggle-btn ms-auto">
+                <i class="fa-solid fa-circle-chevron-down fs-6 text-white"></i>
+            </button>
         </div>
-        <div class="card-body p-4">
+        <div class="card-body p-4 d-none">
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3">
@@ -280,3 +307,29 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtns = document.querySelectorAll(".toggle-btn");
+    toggleBtns.forEach(function (toggleBtn) {
+        toggleBtn.addEventListener("click", function (event) {
+            event.preventDefault();
+
+            const cardBody = toggleBtn.closest(".card").querySelector(".card-body"); 
+            const icon = toggleBtn.querySelector("i"); 
+
+            cardBody.classList.toggle("d-none");
+
+            if (cardBody.classList.contains("d-none")) {
+                icon.classList.remove("fa-circle-chevron-up");
+                icon.classList.add("fa-circle-chevron-down");
+            } else {
+                icon.classList.remove("fa-circle-chevron-down");
+                icon.classList.add("fa-circle-chevron-up");
+            }
+        });
+    });
+    });
+</script>
+<script src="{{ asset('assets/js/add-polybag-form.js') }}"></script>
+<script src="{{ asset('assets/js/add-carton-form.js') }}"></script>

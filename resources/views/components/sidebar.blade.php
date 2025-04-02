@@ -27,9 +27,7 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-6"></i>
                     <span class="hide-menu">ACCOUNT PAGES</span>
                 </li>
-                {{--
-                <x-sidelink route="login" icon="solar:login-3-bold-duotone" label="Login" />
-                <x-sidelink route="register" icon="solar:user-plus-rounded-bold-duotone" label="Register" /> --}}
+                <x-sidelink route="account-page" icon="solar:user-circle-bold-duotone" label="Account" />
 
             </ul>
         </nav>

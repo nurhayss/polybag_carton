@@ -21,11 +21,14 @@ use Illuminate\Support\Facades\Route;
 //Main Features
 Route::get('login', [MainController::class, 'login'])->name('login');
 Route::get('/', [MainController::class, 'index'])->name('index');
+Route::get('new-form', [MainController::class, 'newForm'])->name('new-form');
+Route::get('account-page', [MainController::class, 'accountPage'])->name('account-page');
 
 //Login Features
 Route::post('login-process', [LoginController::class, 'loginProcess'])->name('login-process');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //Form Features
-Route::get('new-form', [FormController::class, 'newForm'])->name('new-form');
 Route::get('form-post', [FormController::class, 'formPost'])->name('form-post');
+
+//Account Features
