@@ -29,6 +29,6 @@ Route::post('login-process', [LoginController::class, 'loginProcess'])->name('lo
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //Form Features
-Route::get('form-post', [FormController::class, 'formPost'])->name('form-post');
+Route::post('form-post', [FormController::class, 'formPost'])->name('form-post');
 
 //Account Features

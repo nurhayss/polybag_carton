@@ -16,7 +16,9 @@
                 </li>
                 <x-sidelink route="index" icon="solar:home-smile-bold-duotone" label="Dashboard" />
 
+                @if ($session->role == 1)
                 <x-sidelink route="new-form" icon="solar:file-text-bold-duotone" label="Order Form" />
+                @endif
                 {{--
                 <x-sidelink route="a" icon="solar:danger-circle-bold-duotone" label="Alerts" />
                 <x-sidelink route="a" icon="solar:bookmark-square-minimalistic-bold-duotone" label="Card" />

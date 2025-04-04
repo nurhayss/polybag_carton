@@ -10,9 +10,10 @@ class Polybag extends Model
     use HasFactory;
     protected $table = 'polybags';
     protected $fillable = [
+        'order_id',
         'pack',
         'size',
-        'lenght',
+        'length',
         'width',
         'qty_order',
         'isi',

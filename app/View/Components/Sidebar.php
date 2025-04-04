@@ -11,9 +11,11 @@ class Sidebar extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $session;
+
+    public function __construct($session)
     {
-        //
+        $this->session = $session;
     }
 
     /**

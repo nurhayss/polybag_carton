@@ -19,7 +19,6 @@
 
     .form-check-input:checked::before {
         content: "✔";
-        /* Tambahkan centang */
         color: white;
         font-size: 14px;
         font-weight: bold;
@@ -47,7 +46,8 @@
         font-size: 18px;
     }
 </style>
-<form>
+<form action="{{ route('form-post') }}" method="POST">
+    @csrf
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div
             class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
@@ -61,7 +61,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">PO Number</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="po_no">
                     </div>
                 </div>
             </div>
@@ -69,13 +69,13 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Order Number</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="order_no">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Style</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="style">
                     </div>
                 </div>
             </div>
@@ -83,19 +83,43 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Date</label>
-                        <input type="date" class="form-control">
+                        <input type="date" class="form-control" name="date">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Buyer</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="buyer">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Garment Qty</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="qty_garment">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Shipment</label>
+                        <select name="shipment" id="shipment" class="form-select">
+                            <option disabled selected>Pilih Pengiriman</option>
+                            <option value="1">Sea</option>
+                            <option value="2">Air</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Location</label>
+                        <input type="text" class="form-control" name="location">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">GMT Delivery</label>
+                        <input type="date" class="form-control" name="gmt_delivery">
                     </div>
                 </div>
             </div>
@@ -121,27 +145,27 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack1">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack1" value="1">
                                 <label class="form-check-label" for="pack1">Biasa</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack2">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack2" value="2">
                                 <label class="form-check-label" for="pack2">Hanger Lubang 1</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack3">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack3" value="3">
                                 <label class="form-check-label" for="pack3">Hanger Lubang 2</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack4">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack4" value="4">
                                 <label class="form-check-label" for="pack4">Lidah</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack4">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack4" value="5">
                                 <label class="form-check-label" for="pack4">Gusset</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="pack" id="pack5">
+                                <input class="form-check-input" type="checkbox" name="packing" id="pack5" value="6">
                                 <label class="form-check-label" for="pack5">Hanger</label>
                             </div>
                         </div>
@@ -152,7 +176,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Pack</label>
-                        <select name="" class="form-select" id="">
+                        <select name="pack" class="form-select" id="">
                             <option disabled selected>Pilih Pack</option>
                             <option value="solid">Solid</option>
                             <option value="assort">Assort</option>
@@ -163,7 +187,7 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Size</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="size">
                     </div>
                 </div>
             </div>
@@ -171,67 +195,40 @@
                 <label class="form-label fw-semibold">Ukuran (p x l)</label>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Panjang">
+                        <input type="text" class="form-control" placeholder="Panjang" name="length">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Lebar">
+                        <input type="text" class="form-control" placeholder="Lebar" name="width">
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Isi/Polybag</label>
-                        <input type="number" class="form-control">
+                        <input type="number" class="form-control" name="isi">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Kebutuhan</label>
-                        <input type="number" class="form-control">
+                        <input type="number" class="form-control" name="kebutuhan">
                     </div>
                 </div>
-                <div class="col-md-4">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quantity Order</label>
-                        <input type="number" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Kualitas Plastik</label>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="pack" id="pe">
-                                    <label class="form-check-label" for="pe">PE</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="pack" id="pp">
-                                    <label class="form-check-label" for="pp">PP</label>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="number" class="form-control" name="qty_order">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Ketebalan</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="" class="form-label fw-semibold">Print Warning</label>
-                        <textarea name="" class="form-control" id="" cols="10" rows="5"></textarea>
+                        <label class="form-label fw-semibold">Quantity Beli</label>
+                        <input type="number" class="form-control" name="qty_beli">
                     </div>
                 </div>
             </div>
@@ -256,13 +253,13 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Packing</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="carton_packing">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quality</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="quality">
                     </div>
                 </div>
             </div>
@@ -270,17 +267,17 @@
                 <label class="form-label fw-semibold">Ukuran (p x l x t)</label>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Panjang">
+                        <input type="number" class="form-control" placeholder="Panjang" name="carton_length">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Lebar">
+                        <input type="number" class="form-control" placeholder="Lebar" name="carton_width">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Tinggi">
+                        <input type="number" class="form-control" placeholder="Tinggi" name="carton_height">
                     </div>
                 </div>
             </div>
@@ -288,48 +285,96 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Volume</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="volume">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Isi</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="qty">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Berat</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="weight">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-3 ms-auto text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitModal">
+                Submit
+            </button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Submission Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3 mb-3 bg-primary border-bottom">
+                        <h5 class="m-0 fw-bold text-white">Polybag Notes</h5>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Kualitas Plastik</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="plastic_quality" id="pe"
+                                                value="1">
+                                            <label class="form-check-label" for="pe">PE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="plastic_quality" id="pp"
+                                                value="2">
+                                            <label class="form-check-label" for="pp">PP</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Ketebalan</label>
+                                <input type="text" class="form-control" name="thickness">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="print_warning" class="form-label fw-semibold">Print Warning</label>
+                                <textarea class="form-control" id="print_warning" name="print_warning" cols="30"
+                                    rows="5"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </form>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const toggleBtns = document.querySelectorAll(".toggle-btn");
-    toggleBtns.forEach(function (toggleBtn) {
-        toggleBtn.addEventListener("click", function (event) {
-            event.preventDefault();
-
-            const cardBody = toggleBtn.closest(".card").querySelector(".card-body"); 
-            const icon = toggleBtn.querySelector("i"); 
-
-            cardBody.classList.toggle("d-none");
-
-            if (cardBody.classList.contains("d-none")) {
-                icon.classList.remove("fa-circle-chevron-up");
-                icon.classList.add("fa-circle-chevron-down");
-            } else {
-                icon.classList.remove("fa-circle-chevron-down");
-                icon.classList.add("fa-circle-chevron-up");
-            }
-        });
-    });
-    });
-</script>
+<script src="{{ asset('assets/js/minimize-card-form.js') }}"></script>
 <script src="{{ asset('assets/js/add-polybag-form.js') }}"></script>
 <script src="{{ asset('assets/js/add-carton-form.js') }}"></script>

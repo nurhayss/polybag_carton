@@ -12,9 +12,10 @@ class Order extends Model
 
     protected $table = 'orders';
     protected $fillable = [
-        'order_no', 
+        'order_no',
         'po_no',
         'date',
+        'style',
         'qty_garment',
         'buyer',
         'gmt_delivery',
@@ -25,7 +26,7 @@ class Order extends Model
         'plastic_quality',
         'thickness',
         'print_warning',
-        'follow_up',        
+        'follow_up',
         'follow_up_date',
         'marketing',
         'marketing_date',
@@ -35,6 +36,7 @@ class Order extends Model
         'purchasing_date',
         'created_by',
         'created_date',
+        'status',
     ];
 
     public function polybags(): HasMany
@@ -45,5 +47,15 @@ class Order extends Model
     public function cartons(): HasMany
     {
         return $this->hasMany(Carton::class);
+    }
+
+    public function setPackingAttribute($value)
+    {
+        $this->attributes['packing'] = json_encode($value ?? []);
+    }
+
+    public function getPackingAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
     }
 }

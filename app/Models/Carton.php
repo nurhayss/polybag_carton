@@ -10,10 +10,11 @@ class Carton extends Model
     use HasFactory;
     protected $table = 'cartons';
     protected $fillable = [
+        'order_id',
         'packing',
         'quality',
         'length',
-        'width',        
+        'width',
         'height',
         'volume',
         'qty',

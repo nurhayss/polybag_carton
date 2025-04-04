@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('order_id');
             $table->string('pack');
-            $table->integer('size');
-            $table->integer('lenght');
+            $table->string('size');
+            $table->integer('length');
             $table->integer('width');
             $table->integer('qty_order');
             $table->integer('isi');

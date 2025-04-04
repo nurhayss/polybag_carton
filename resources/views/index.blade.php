@@ -6,13 +6,18 @@
 <body>
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-    <x-sidebar></x-sidebar>
+    <x-sidebar :session="$session"></x-sidebar>
     <div class="body-wrapper">
       <header class="app-header">
         <x-navbar :session="$session">Dashboard</x-navbar>
       </header>
       <div class="container-fluid">
-        <div class="card">  
+        <div class="card">
+          @if (session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}
+          </div>
+          @endif
           <div class="card-body">
             <div class="row">
               <table id="usersTable" class="table table-striped table-hover">

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->integer('width');
             $table->integer('height');
             $table->string('volume');
-            $table->string('qty');
+            $table->integer('qty');
             $table->string('weight');
-            $table->string('total_order');
+            $table->string('total_order')->nullable();
             $table->timestamps();
         });
     }

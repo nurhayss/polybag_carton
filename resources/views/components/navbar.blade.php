@@ -32,8 +32,16 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body d-flex flex-column align-items-center justify-content-center">
-                            <p class="fw-bold mb-0 mt-3">{{ $session->name }}</p>
-                            <p class="text-muted">{{ $session->role }}</p>
+                            <p class="fw-bold mb-0 mt-3 text-dark">{{ $session->name }}</p>
+                            @if ($session->role == 1)
+                            <p class="text-muted">Merchandise</p>
+                            @endif
+                            @if ($session->role == 2)
+                            <p class="text-muted">Follow Up</p>
+                            @endif
+                            @if ($session->role == 3)
+                            <p class="text-muted">Purchasing</p>
+                            @endif
                             <hr class="w-100">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
