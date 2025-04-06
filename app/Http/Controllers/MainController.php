@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,11 @@ class MainController extends Controller
     public function index()
     {
         $session = session('user');
+        $orders = Order::get();
+
         $data = [
             'session' => $session,
+            'orders' => $orders,
         ];
         return view('index', $data);
     }

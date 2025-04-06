@@ -30,5 +30,11 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //Form Features
 Route::post('form-post', [FormController::class, 'formPost'])->name('form-post');
+Route::get('edit-form/{id}', [FormController::class, 'editForm'])->name('edit-form');
+Route::post('form-update', [FormController::class, 'formUpdate'])->name('form-update');
+Route::post('form-delete/{id}', [FormController::class, 'formDelete'])->name('form-delete');
+Route::get('detail-form', [FormController::class, 'detailForm'])->name('detail-form');
+
+
 
 //Account Features

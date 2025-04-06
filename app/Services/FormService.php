@@ -24,7 +24,7 @@ class FormService
                 'shipment'    => $validatedData['shipment'],
                 'location'    => $validatedData['location'],
                 'gmt_delivery' => $validatedData['gmt_delivery'],
-                'packing'      => $validatedData['packing'],
+                'packing'       => $validatedData['packing'],
                 'plastic_quality' => $validatedData['plastic_quality'],
                 'thickness'      => $validatedData['thickness'],
                 'print_warning'  => $validatedData['print_warning'],
@@ -64,6 +64,62 @@ class FormService
             throw $e;
         }
     }
+
+    public function updateOrder($order, array $validatedData, $session)
+    {
+        DB::beginTransaction();
+        try {
+            $order->update([
+                'po_no'            => $validatedData['po_no'],
+                'order_no'         => $validatedData['order_no'],
+                'style'            => $validatedData['style'],
+                'date'             => $validatedData['date'],
+                'buyer'            => $validatedData['buyer'],
+                'qty_garment'      => $validatedData['qty_garment'],
+                'shipment'         => $validatedData['shipment'],
+                'location'         => $validatedData['location'],
+                'gmt_delivery'     => $validatedData['gmt_delivery'],
+                'packing'          => $validatedData['packing'],
+                'plastic_quality'  => $validatedData['plastic_quality'],
+                'thickness'        => $validatedData['thickness'],
+                'print_warning'    => $validatedData['print_warning'],
+                'created_by'       => $session->name,
+                'created_date'     => Carbon::now(),
+                'status'           => 1,
+            ]);
+
+
+            $order->polybags()->update([
+                'pack'      => $validatedData['pack'],
+                'size'      => $validatedData['size'],
+                'length'    => $validatedData['length'],
+                'width'     => $validatedData['width'],
+                'qty_order' => $validatedData['qty_order'],
+                'isi'       => $validatedData['isi'],
+                'kebutuhan' => $validatedData['kebutuhan'],
+                'qty_beli'  => $validatedData['qty_beli'],
+            ]);
+
+            $order->cartons()->update([
+                'packing'   => $validatedData['carton_packing'],
+                'quality'   => $validatedData['quality'],
+                'length'    => $validatedData['carton_length'],
+                'width'     => $validatedData['carton_width'],
+                'height'    => $validatedData['carton_height'],
+                'volume'    => $validatedData['volume'],
+                'qty'       => $validatedData['qty'],
+                'weight'    => $validatedData['weight'],
+            ]);
+
+            DB::commit();
+            return $order;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+
 
     public function validateData(array $data): array
     {

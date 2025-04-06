@@ -46,7 +46,9 @@
         font-size: 18px;
     }
 </style>
-<form action="{{ route('form-post') }}" method="POST">
+
+@props(['order','polybag','carton'])
+<form action="{{ route('form-update') }}" method="POST">
     @csrf
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div
@@ -61,7 +63,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">PO Number</label>
-                        <input type="text" class="form-control" name="po_no">
+                        <input type="text" class="form-control" name="po_no" value="{{ $order->po_no }}" readonly>
                     </div>
                 </div>
             </div>
@@ -69,13 +71,13 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Order Number</label>
-                        <input type="text" class="form-control" name="order_no">
+                        <input type="text" class="form-control" name="order_no" value="{{ $order->order_no }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Style</label>
-                        <input type="text" class="form-control" name="style">
+                        <input type="text" class="form-control" name="style" value="{{ $order->style }}">
                     </div>
                 </div>
             </div>
@@ -83,19 +85,19 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Date</label>
-                        <input type="date" class="form-control" name="date">
+                        <input type="date" class="form-control" name="date" value="{{ $order->date }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Buyer</label>
-                        <input type="text" class="form-control" name="buyer">
+                        <input type="text" class="form-control" name="buyer" value="{{ $order->buyer }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Garment Qty</label>
-                        <input type="text" class="form-control" name="qty_garment">
+                        <input type="text" class="form-control" name="qty_garment" value="{{ $order->qty_garment }}">
                     </div>
                 </div>
             </div>
@@ -104,22 +106,24 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Shipment</label>
                         <select name="shipment" id="shipment" class="form-select">
-                            <option disabled selected>Pilih Pengiriman</option>
-                            <option value="1">Sea</option>
-                            <option value="2">Air</option>
+                            <option disabled {{ empty($order->shipment) ? 'selected' : '' }}>
+                                Pilih Pengiriman
+                            </option>
+                            <option value="1" {{ $order->shipment == 1 ? 'selected' : '' }}>Sea</option>
+                            <option value="2" {{ $order->shipment == 2 ? 'selected' : '' }}>Air</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Location</label>
-                        <input type="text" class="form-control" name="location">
+                        <input type="text" class="form-control" name="location" value="{{ $order->location }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">GMT Delivery</label>
-                        <input type="date" class="form-control" name="gmt_delivery">
+                        <input type="date" class="form-control" name="gmt_delivery" value="{{ $order->gmt_delivery }}">
                     </div>
                 </div>
             </div>
@@ -143,31 +147,25 @@
             <div class="row mt-3 mb-2">
                 <div class="col-12">
                     <div class="mb-3">
-                        <div class="d-flex justify-content-between">
+                        @php
+                        $packingOptions = [
+                        1 => 'Biasa',
+                        2 => 'Hanger Lubang 1',
+                        3 => 'Hanger Lubang 2',
+                        4 => 'Lidah',
+                        5 => 'Gusset',
+                        6 => 'Hanger',
+                        ];
+                        @endphp
+
+                        <div class="d-flex justify-content-between flex-wrap gap-2">
+                            @foreach ($packingOptions as $value => $label)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack1" value="1">
-                                <label class="form-check-label" for="pack1">Biasa</label>
+                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack{{ $value }}"
+                                    value="{{ $value }}" {{ in_array($value, $order->packing) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="pack{{ $value }}">{{ $label }}</label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack2" value="2">
-                                <label class="form-check-label" for="pack2">Hanger Lubang 1</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack3" value="3">
-                                <label class="form-check-label" for="pack3">Hanger Lubang 2</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack4" value="4">
-                                <label class="form-check-label" for="pack4">Lidah</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack4" value="5">
-                                <label class="form-check-label" for="pack4">Gusset</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack5" value="6">
-                                <label class="form-check-label" for="pack5">Hanger</label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -177,17 +175,17 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Pack</label>
                         <select name="pack" class="form-select" id="">
-                            <option disabled selected>Pilih Pack</option>
-                            <option value="solid">Solid</option>
-                            <option value="assort">Assort</option>
-                            <option value="individual">Individual (.com)</option>
+                            <option disabled {{ empty($polybag->pack ? 'selected' : '') }}>Pilih Pack</option>
+                            <option value="1" {{ $polybag->pack == 1 ? 'selected' : '' }}>Solid</option>
+                            <option value="2" {{ $polybag->pack == 2 ? 'selected' : '' }}>Assort</option>
+                            <option value="3" {{ $polybag->pack == 3 ? 'selected' : '' }}>Individual (.com)</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Size</label>
-                        <input type="text" class="form-control" name="size">
+                        <input type="text" class="form-control" name="size" value="{{ $polybag->size }}">
                     </div>
                 </div>
             </div>
@@ -195,12 +193,14 @@
                 <label class="form-label fw-semibold">Ukuran (p x l)</label>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Panjang" name="length">
+                        <input type="text" class="form-control" placeholder="Panjang" name="length"
+                            value="{{ $polybag->length }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Lebar" name="width">
+                        <input type="text" class="form-control" placeholder="Lebar" name="width"
+                            value="{{ $polybag->width }}">
                     </div>
                 </div>
             </div>
@@ -208,13 +208,13 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Isi/Polybag</label>
-                        <input type="number" class="form-control" name="isi">
+                        <input type="number" class="form-control" name="isi" value="{{ $polybag->isi }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Kebutuhan</label>
-                        <input type="number" class="form-control" name="kebutuhan">
+                        <input type="number" class="form-control" name="kebutuhan" value="{{ $polybag->kebutuhan }}">
                     </div>
                 </div>
             </div>
@@ -222,13 +222,13 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quantity Order</label>
-                        <input type="number" class="form-control" name="qty_order">
+                        <input type="number" class="form-control" name="qty_order" value="{{ $polybag->qty_order }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quantity Beli</label>
-                        <input type="number" class="form-control" name="qty_beli">
+                        <input type="number" class="form-control" name="qty_beli" value="{{ $polybag->qty_beli }}">
                     </div>
                 </div>
             </div>
@@ -253,13 +253,13 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Packing</label>
-                        <input type="text" class="form-control" name="carton_packing">
+                        <input type="text" class="form-control" name="carton_packing" value="{{ $carton->packing }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quality</label>
-                        <input type="text" class="form-control" name="quality">
+                        <input type="text" class="form-control" name="quality" value="{{ $carton->quality }}">
                     </div>
                 </div>
             </div>
@@ -267,17 +267,20 @@
                 <label class="form-label fw-semibold">Ukuran (p x l x t)</label>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Panjang" name="carton_length">
+                        <input type="number" class="form-control" placeholder="Panjang" name="carton_length"
+                            value="{{ $carton->length }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Lebar" name="carton_width">
+                        <input type="number" class="form-control" placeholder="Lebar" name="carton_width"
+                            value="{{ $carton->width }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Tinggi" name="carton_height">
+                        <input type="number" class="form-control" placeholder="Tinggi" name="carton_height"
+                            value="{{ $carton->height }}">
                     </div>
                 </div>
             </div>
@@ -285,19 +288,19 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Volume</label>
-                        <input type="text" class="form-control" name="volume">
+                        <input type="text" class="form-control" name="volume" value="{{ $carton->volume }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Isi</label>
-                        <input type="text" class="form-control" name="qty">
+                        <input type="text" class="form-control" name="qty" value="{{ $carton->qty }}">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Berat</label>
-                        <input type="text" class="form-control" name="weight">
+                        <input type="text" class="form-control" name="weight" value="{{ $carton->weight }}">
                     </div>
                 </div>
             </div>
@@ -331,14 +334,14 @@
                                     <div class="col-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="plastic_quality" id="pe"
-                                                value="1">
+                                                value="1" {{ $order->plastic_quality == 1 ? 'checked' : '' }}>
                                             <label class="form-check-label" for="pe">PE</label>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="plastic_quality" id="pp"
-                                                value="2">
+                                                value="2" {{ $order->plastic_quality == 2 ? 'checked' : '' }}>
                                             <label class="form-check-label" for="pp">PP</label>
                                         </div>
                                     </div>
@@ -350,7 +353,8 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Ketebalan</label>
-                                <input type="text" class="form-control" name="thickness">
+                                <input type="text" class="form-control" name="thickness"
+                                    value="{{ $order->thickness }}">
                             </div>
                         </div>
                     </div>
@@ -359,13 +363,14 @@
                             <div class="mb-3">
                                 <label for="print_warning" class="form-label fw-semibold">Print Warning</label>
                                 <textarea class="form-control" id="print_warning" name="print_warning" cols="30"
-                                    rows="5"></textarea>
+                                    rows="5">{{ $order->print_warning }}</textarea>
                             </div>
 
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" value="{{ $order->id }}" name="id">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

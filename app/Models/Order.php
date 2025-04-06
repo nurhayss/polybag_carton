@@ -51,11 +51,13 @@ class Order extends Model
 
     public function setPackingAttribute($value)
     {
-        $this->attributes['packing'] = json_encode($value ?? []);
+        $this->attributes['packing'] = json_encode((array) $value);
     }
+
 
     public function getPackingAttribute($value)
     {
-        return json_decode($value, true) ?? [];
+        $decoded = json_decode($value, true);
+        return is_array($decoded) ? $decoded : [$decoded];
     }
 }
