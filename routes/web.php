@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MainController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [MainController::class, 'login'])->name('login');
 Route::get('/', [MainController::class, 'index'])->name('index');
 Route::get('new-form', [MainController::class, 'newForm'])->name('new-form');
-Route::get('account-page', [MainController::class, 'accountPage'])->name('account-page');
+Route::get('account', [MainController::class, 'accountPage'])->name('account-page');
 
 //Login Features
 Route::post('login-process', [LoginController::class, 'loginProcess'])->name('login-process');
@@ -36,5 +37,5 @@ Route::post('form-delete/{id}', [FormController::class, 'formDelete'])->name('fo
 Route::get('detail-form', [FormController::class, 'detailForm'])->name('detail-form');
 
 
-
 //Account Features
+Route::post('create-user', [AccountController::class, 'createUser'])->name('create-user');

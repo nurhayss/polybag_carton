@@ -38,8 +38,10 @@ class MainController extends Controller
     public function accountPage()
     {
         $session = session('user');
+        $users = User::get();
         $data = [
-            'session' => $session
+            'session' => $session,
+            'users' => $users
         ];
         return view('account-page', $data);
     }
