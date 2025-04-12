@@ -29,8 +29,12 @@ class MainController extends Controller
     public function newForm()
     {
         $session = session('user');
+        $order = Order::get();
+        $orderMap = $order->pluck('style', 'order_no');
         $data = [
-            'session' => $session
+            'session' => $session,
+            'order' => $order,
+            'orderMap' => $orderMap,
         ];
         return view('new-form', $data);
     }

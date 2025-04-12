@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('volume');
             $table->integer('qty');
             $table->string('weight');
-            $table->string('total_order')->nullable();
+            $table->integer('total_order')->nullable();
             $table->timestamps();
         });
     }

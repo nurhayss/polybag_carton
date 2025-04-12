@@ -19,13 +19,29 @@ class FormController extends Controller
     public function formPost(Request $request)
     {
         $session = session('user');
-        $formservice = new FormService();
-        $create = $formservice->createOrder($request->all(), $session);
+        $formService = new FormService();
+
+        $data = $request->all();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image');
+        }
+
+        $validatedData = $formService->validateData($data);
+
+        if (isset($validatedData['image'])) {
+            $validatedData['image'] = $validatedData['image']->store('polybag-images', 'public');
+        }
+
+        $create = $formService->createOrder($validatedData, $session);
 
         return $create
             ? redirect()->route('index')->with('success', 'Form successfully created!')
-            : redirect()->back()->withInput($request->all());
+            : redirect()->back()->withInput()->with('error', 'Form creation failed!');
     }
+
+
+
 
     public function editForm($id)
     {
@@ -47,14 +63,18 @@ class FormController extends Controller
     public function formUpdate(Request $request)
     {
         $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
 
-        $order = Order::with(['polybags', 'cartons'])->where('id', $request->id)->first();
+        $formService = new FormService();
+        $validatedData = $formService->validateData($request->all());
 
-        $formservice = new FormService();
-        $updated = $formservice->updateOrder($order, $request->all(), $session);
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('polybag-images', 'public');
+        }
+        $updated = $formService->updateOrder($order, $validatedData, $session);
 
         return $updated
             ? redirect()->route('index')->with('success', 'Form successfully updated!')
-            : redirect()->back()->withInput($request->all());
+            : redirect()->back()->withInput()->with('error', 'Form update failed!');
     }
 }

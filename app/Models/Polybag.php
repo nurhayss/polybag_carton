@@ -19,5 +19,6 @@ class Polybag extends Model
         'isi',
         'kebutuhan',
         'qty_beli',
+        'image',
     ];
 }

@@ -14,7 +14,7 @@
                     {{ session('error') }}
                 </div>
                 @endif
-                <x-form></x-form>
+                <x-form :order="$order" :orderMap="$orderMap"></x-form>
             </div>
         </div>
         <x-js></x-js>

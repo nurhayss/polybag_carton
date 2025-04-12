@@ -6,6 +6,7 @@ use App\Models\Carton;
 use App\Models\Order;
 use App\Models\Polybag;
 use Carbon\Carbon;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Support\Facades\DB;
 
 class FormService
@@ -14,6 +15,7 @@ class FormService
     {
         DB::beginTransaction();
         try {
+
             $order = Order::create([
                 'po_no'       => $validatedData['po_no'],
                 'order_no'    => $validatedData['order_no'],
@@ -24,6 +26,7 @@ class FormService
                 'shipment'    => $validatedData['shipment'],
                 'location'    => $validatedData['location'],
                 'gmt_delivery' => $validatedData['gmt_delivery'],
+                'arrived_at' => $validatedData['arrived_at'] ?? null,
                 'packing'       => $validatedData['packing'],
                 'plastic_quality' => $validatedData['plastic_quality'],
                 'thickness'      => $validatedData['thickness'],
@@ -33,7 +36,7 @@ class FormService
                 'status'         => 1,
             ]);
 
-            Polybag::create([
+            $polybag =  Polybag::create([
                 'order_id'   => $order->id,
                 'pack'       => $validatedData['pack'],
                 'size'       => $validatedData['size'],
@@ -43,9 +46,10 @@ class FormService
                 'isi'        => $validatedData['isi'],
                 'kebutuhan'  => $validatedData['kebutuhan'],
                 'qty_beli'   => $validatedData['qty_beli'],
+                'image'      => $validatedData['image'],
             ]);
 
-            Carton::create([
+            $carton =  Carton::create([
                 'order_id'      => $order->id,
                 'packing'       => $validatedData['carton_packing'],
                 'quality'       => $validatedData['quality'],
@@ -55,6 +59,7 @@ class FormService
                 'volume'        => $validatedData['volume'],
                 'qty'           => $validatedData['qty'],
                 'weight'        => $validatedData['weight'],
+                'total_order'        => $validatedData['total_order'],
             ]);
 
             DB::commit();
@@ -79,6 +84,7 @@ class FormService
                 'shipment'         => $validatedData['shipment'],
                 'location'         => $validatedData['location'],
                 'gmt_delivery'     => $validatedData['gmt_delivery'],
+                'arrived_at'     => $validatedData['arrived_at'],
                 'packing'          => $validatedData['packing'],
                 'plastic_quality'  => $validatedData['plastic_quality'],
                 'thickness'        => $validatedData['thickness'],
@@ -98,6 +104,8 @@ class FormService
                 'isi'       => $validatedData['isi'],
                 'kebutuhan' => $validatedData['kebutuhan'],
                 'qty_beli'  => $validatedData['qty_beli'],
+                'image'   => $validatedData['image'],
+
             ]);
 
             $order->cartons()->update([
@@ -109,6 +117,8 @@ class FormService
                 'volume'    => $validatedData['volume'],
                 'qty'       => $validatedData['qty'],
                 'weight'    => $validatedData['weight'],
+                'total_order'        => $validatedData['total_order'],
+
             ]);
 
             DB::commit();
@@ -123,7 +133,7 @@ class FormService
 
     public function validateData(array $data): array
     {
-        return validator($data, [
+        $validator = validator($data, [
             'po_no'        => 'required|string',
             'order_no'     => 'required|string',
             'style'        => 'required|string',
@@ -133,6 +143,7 @@ class FormService
             'shipment'     => 'required|string',
             'location'     => 'required|string',
             'gmt_delivery' => 'required|date',
+            'arrived_at' => 'nullable|date',
             'packing'      => 'required',
             'plastic_quality' => 'required',
             'thickness'      => 'required',
@@ -146,6 +157,7 @@ class FormService
             'isi'          => 'required|integer',
             'kebutuhan'    => 'required|integer',
             'qty_beli'     => 'required|integer',
+            'image'            => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
             'carton_packing' => 'required|string',
             'quality'        => 'required|string',
@@ -155,6 +167,12 @@ class FormService
             'volume'         => 'required|string',
             'qty'            => 'required|integer',
             'weight'         => 'required|string',
-        ])->validate();
+            'total_order'         => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            dd($validator->errors());
+        }
+        return $validator->validated();
     }
 }
