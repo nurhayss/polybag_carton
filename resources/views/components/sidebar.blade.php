@@ -2,7 +2,8 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="#" class="text-nowrap logo-img">
-                <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="" />
+                <img style="height: 50px;width: 50px" src="{{ asset('assets/images/logo-polybag.png') }}" alt="" />
+                <span class="text-dark fw-bold">PT Sansan Saudaratex Jaya</span>
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>

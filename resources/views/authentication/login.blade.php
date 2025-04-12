@@ -25,9 +25,9 @@
 
               <div class="card-body">
                 <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                  <img src="../assets/images/logos/logo-light.svg" alt="">
+                  <img src="../assets/images/logo-polybag.png" style="height: 50px; width:50px" alt="">
                 </a>
-                <p class="text-center">Your Social Campaigns</p>
+                <p class="text-center text-dark">PT Sansan Saudaratex Jaya</p>
                 <form action="{{ route('login-process') }}" method="POST">
                   @csrf
                   <div class="mb-3">
