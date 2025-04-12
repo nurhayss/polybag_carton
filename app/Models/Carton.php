@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,11 @@ class Carton extends Model
         'weight',
         'total_order',
     ];
+
+    protected function totalOrderFormatted(): Attribute
+    {
+        return Attribute::get(function () {
+            return 'Rp ' . number_format($this->total_order, 0, ',', '.');
+        });
+    }
 }

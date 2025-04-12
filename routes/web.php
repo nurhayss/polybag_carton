@@ -35,6 +35,8 @@ Route::get('edit-form/{id}', [FormController::class, 'editForm'])->name('edit-fo
 Route::post('form-update', [FormController::class, 'formUpdate'])->name('form-update');
 Route::post('form-delete/{id}', [FormController::class, 'formDelete'])->name('form-delete');
 Route::get('detail-form', [FormController::class, 'detailForm'])->name('detail-form');
+Route::get('data-get/{po_no}', [FormController::class, 'dataGet'])->name('data-get');
+Route::post('data-create', [FormController::class, 'dataCreate'])->name('data-create');
 
 
 //Account Features

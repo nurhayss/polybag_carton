@@ -33,6 +33,7 @@
                     <th>Buyer</th>
                     <th>Garment Delivery</th>
                     <th>Status</th>
+                    <th>Data</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -129,6 +130,9 @@
                   {{ $orderStatus[$order->status] ?? 'Unknown Status' }}
                 </button>
               </td>
+              <td><a class="badge bg-info fw-bold text-light p-2 fs-2 text  shadow-sm border-0"
+                  href="{{ route('data-get', ['po_no' => $order->po_no]) }}">Add Data</a></td>
+
               <td>
                 <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
                 <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i

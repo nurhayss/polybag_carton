@@ -13,6 +13,11 @@
 
 <script>
     $(document).ready(function() {
-        $('#usersTable').DataTable();
+        $('#polybagTable').DataTable();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#cartonTable').DataTable();
     });
 </script>

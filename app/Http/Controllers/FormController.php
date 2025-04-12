@@ -21,6 +21,32 @@ class FormController extends Controller
         $session = session('user');
         $formService = new FormService();
 
+        $validatedData = $formService->validateOrder($request->all());
+
+        $create = $formService->createOrder($validatedData, $session);
+
+        return $create
+            ? redirect()->route('data-get', ['po_no' => $create->po_no])->with('success', 'Data successfully added!')
+            : redirect()->back()->withInput()->with('error', 'Form creation failed!');
+    }
+
+    public function dataGet($id)
+    {
+        $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
+
+        $data = [
+            'session' => $session,
+            'order' => $order,
+        ];
+
+        return view('data', $data);
+    }
+    public function dataCreate(Request $request)
+    {
+        $session = session('user');
+        $formService = new FormService();
+
         $data = $request->all();
 
         if ($request->hasFile('image')) {
@@ -33,15 +59,13 @@ class FormController extends Controller
             $validatedData['image'] = $validatedData['image']->store('polybag-images', 'public');
         }
 
-        $create = $formService->createOrder($validatedData, $session);
+        $create = $formService->createData($validatedData, $session);
 
+        $po_no = Order::find($create)->po_no;
         return $create
-            ? redirect()->route('index')->with('success', 'Form successfully created!')
-            : redirect()->back()->withInput()->with('error', 'Form creation failed!');
+            ? redirect()->route('data-get', ['po_no' => $po_no])
+            : redirect()->back()->withInput()->with('error', 'Data creation failed!');
     }
-
-
-
 
     public function editForm($id)
     {
@@ -60,21 +84,21 @@ class FormController extends Controller
         return view('edit-form', $data);
     }
 
-    public function formUpdate(Request $request)
-    {
-        $session = session('user');
-        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
+    // public function formUpdate(Request $request)
+    // {
+    //     $session = session('user');
+    //     $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
 
-        $formService = new FormService();
-        $validatedData = $formService->validateData($request->all());
+    //     $formService = new FormService();
+    //     $validatedData = $formService->validateData($request->all());
 
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = $request->file('image')->store('polybag-images', 'public');
-        }
-        $updated = $formService->updateOrder($order, $validatedData, $session);
+    //     if ($request->hasFile('image')) {
+    //         $validatedData['image'] = $request->file('image')->store('polybag-images', 'public');
+    //     }
+    //     $updated = $formService->updateOrder($order, $validatedData, $session);
 
-        return $updated
-            ? redirect()->route('index')->with('success', 'Form successfully updated!')
-            : redirect()->back()->withInput()->with('error', 'Form update failed!');
-    }
+    //     return $updated
+    //         ? redirect()->route('index')->with('success', 'Form successfully updated!')
+    //         : redirect()->back()->withInput()->with('error', 'Form update failed!');
+    // }
 }
