@@ -27,6 +27,34 @@ class AccountService
         }
     }
 
+    public function update(array $data, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($id);
+
+            $updateData = [
+                'name'  => $data['name'],
+                'email' => $data['email'],
+                'role'  => $data['role'],
+            ];
+
+            if (!empty($data['password'])) {
+                $updateData['password'] = Hash::make($data['password']);
+            }
+
+            $user->update($updateData);
+
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+
+
     public function validateData(array $data): array
     {
         return Validator::make($data, [

@@ -111,6 +111,7 @@ class FormService
         try {
             $carton = Carton::create([
                 'order_id'    => $validatedData['order_id'],
+                'send'     => $validatedData['send'],
                 'packing'     => $validatedData['carton_packing'],
                 'quality'     => $validatedData['quality'],
                 'length'      => $validatedData['carton_length'],
@@ -164,6 +165,7 @@ class FormService
         }
 
         $carton->fill([
+            'send'     => $validated['send'],
             'packing'     => $validated['carton_packing'],
             'quality'     => $validated['quality'],
             'length'      => $validated['carton_length'],
@@ -244,6 +246,7 @@ class FormService
     {
         $validator = validator($data, [
             'order_id'       => 'required|exists:orders,id',
+            'send' => 'required|date',
             'carton_packing' => 'required|string',
             'quality'        => 'required|string',
             'carton_length'  => 'required|numeric',
