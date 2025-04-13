@@ -13,6 +13,7 @@ class Carton extends Model
     protected $table = 'cartons';
     protected $fillable = [
         'order_id',
+        'send',
         'packing',
         'quality',
         'length',

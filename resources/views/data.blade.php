@@ -125,6 +125,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Send Date</th>
                                             <th>Packing</th>
                                             <th>Quality</th>
                                             <th>Ukuran <span class="text-primary">(p x l x t)</span></th>
@@ -164,9 +165,9 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $carton->send }}</td>
                                             <td>{{ $carton->packing }}</td>
                                             <td>{{ $carton->quality }}</td>
                                             <td>{{ $carton->length }} x {{ $carton->width }} x {{ $carton->height }}
@@ -183,7 +184,6 @@
                                                         data-bs-target="#deleteCarton-{{ $carton->id }}">
                                                         <i class="fa-solid fa-trash"></i>
                                                     </a>
-
 
                                             </td>
                                         </tr>

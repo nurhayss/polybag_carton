@@ -33,7 +33,9 @@
                     <th>Buyer</th>
                     <th>Garment Delivery</th>
                     <th>Status</th>
+                    @if($session->role == 1)
                     <th>Data</th>
+                    @endif
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -127,13 +129,19 @@
                         {{ $orderStatus[$order->status] ?? 'Unknown Status' }}
                       </button>
                     </td>
-                    <td><a class="badge bg-info fw-bold text-light p-2 fs-2 text shadow-sm border-0"
-                        href="{{ route('data-get', ['po_no' => $order->po_no]) }}">Add Data</a></td>
+                    @if($session->role == 1)
+                    <td>
+                      <a class="badge bg-info fw-bold text-light p-2 fs-2 text shadow-sm border-0"
+                        href="{{ route('data-get', ['po_no' => $order->po_no]) }}">Add Data</a>
+                    </td>
+                    @endif
 
                     <td>
                       <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
+                      @if($session->role == 1)
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
+                      @endif
                       {{-- <a class="badge text-bg-danger"><i class="fa-solid fa-trash"></i></a> --}}
                     </td>
                   </tr>

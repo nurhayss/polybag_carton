@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cartons', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
+            $table->date('send');
             $table->string('packing');
             $table->string('quality');
             $table->integer('length');
