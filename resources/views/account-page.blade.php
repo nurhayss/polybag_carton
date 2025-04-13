@@ -89,23 +89,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-
-                                            <div class="col-6">
-                                                <div class="mb-3">
-                                                    <label for="password_confirmation" class="form-label">Confirmation
-                                                        Password</label>
-                                                    <input type="password"
-                                                        class="form-control @error('password_confirmation') is-invalid @enderror"
-                                                        id="password_confirmation" name="password_confirmation">
-                                                    @error('password_confirmation')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
+                                            <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label for="role" class="form-label">Role</label>
                                                     <select class="form-select" id="role" name="role">
@@ -117,7 +101,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="row">
                                             <div class="col-12 text-end">
                                                 <button type="submit" class="btn btn-primary">Submit</button>

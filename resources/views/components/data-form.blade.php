@@ -17,9 +17,9 @@
                         <label class="form-label fw-semibold">Pack</label>
                         <select name="pack" class="form-select" id="">
                             <option disabled selected>Pilih Pack</option>
-                            <option value="solid">Solid</option>
-                            <option value="assort">Assort</option>
-                            <option value="individual">Individual (.com)</option>
+                            <option value="Solid">Solid</option>
+                            <option value="Assort">Assort</option>
+                            <option value="Individual">Individual (.com)</option>
                         </select>
                     </div>
                 </div>
@@ -112,13 +112,19 @@
         </div>
         <div class="card-body p-4 d-none ">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Send Date</label>
+                        <input type="date" class="form-control" name="send">
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Packing</label>
                         <input type="text" class="form-control" name="carton_packing">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Quality</label>
                         <input type="text" class="form-control" name="quality">
