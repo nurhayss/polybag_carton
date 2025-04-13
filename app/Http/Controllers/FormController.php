@@ -42,6 +42,24 @@ class FormController extends Controller
 
         return view('data', $data);
     }
+
+    public function printData($id)
+    {
+        $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
+
+        $data = [
+            'session' => $session,
+            'order' => $order,
+        ];
+
+        return view('cetak', [
+            'order' => $order,
+            'data' => $data,
+            'logo' => asset('/assets/images/logo-polybag.png'),
+        ]);
+    }
+
     public function dataCreatePolybag(Request $request)
     {
         $session = session('user');
