@@ -38,9 +38,9 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($orders as $order)
-                  <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="modalLabel"
-                    aria-hidden="true">
+                  @forelse($orders as $order)
+                  <div class="modal fade" id="statusModal{{ $order->id }}" tabindex="-1"
+                    aria-labelledby="modalLabel{{ $order->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-md">
                       <div class="modal-content border-0 shadow-lg rounded-4">
 
@@ -49,7 +49,6 @@
                           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                         </div>
-
 
                         <div class="modal-body px-4 py-4 bg-light">
                           @php
@@ -77,7 +76,6 @@
                                 <div class="text-black small">
                                   @if ($order->status < $info['status']) Menunggu: @elseif ($info['status']==1) Dibuat
                                     oleh: @else Disetujui oleh: @endif <strong>{{ $info['by'] }}</strong><br>
-
                                     @if ($order->status >= $info['status'] && $info['date'])
                                     <span class="text-black">{{ \Carbon\Carbon::parse($info['date'])->format('d M Y')
                                       }}</span>
@@ -99,56 +97,60 @@
                     </div>
                   </div>
 
+                  <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $order->po_no }}</td>
+                    <td>{{ $order->order_no }}</td>
+                    <td>{{ $order->style }}</td>
+                    <td>{{ $order->buyer }}</td>
+                    <td>{{ $order->gmt_delivery }}</td>
+
+                    @php
+                    $class = [
+                    1 => 'badge bg-warning fw-bold text-dark p-2 fs-2 rounded-pill shadow-sm border-0',
+                    2 => 'badge bg-primary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
+                    3 => 'badge bg-secondary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
+                    4 => 'badge bg-success fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
+                    ];
+
+                    $orderStatus = [
+                    1 => 'Pending',
+                    2 => 'Approved by Merchandiser',
+                    3 => 'Approved by Follow Up',
+                    4 => 'Approved by Purchasing',
+                    ];
+                    @endphp
+
+                    <td>
+                      <button data-bs-toggle="modal" data-bs-target="#statusModal{{ $order->id }}"
+                        class="{{ $class[$order->status] ?? 'badge bg-dark text-light p-2 fs-6 rounded-pill shadow-sm' }}">
+                        {{ $orderStatus[$order->status] ?? 'Unknown Status' }}
+                      </button>
+                    </td>
+                    <td><a class="badge bg-info fw-bold text-light p-2 fs-2 text shadow-sm border-0"
+                        href="{{ route('data-get', ['po_no' => $order->po_no]) }}">Add Data</a></td>
+
+                    <td>
+                      <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
+                      <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
+                          class="fa-solid fa-file-pen"></i></a>
+                      {{-- <a class="badge text-bg-danger"><i class="fa-solid fa-trash"></i></a> --}}
+                    </td>
+                  </tr>
+                  @empty
+                  <tr>
+                    <td colspan="9" class="text-center">No orders found.</td>
+                  </tr>
+                  @endforelse
+                </tbody>
+              </table>
 
             </div>
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $order->po_no }}</td>
-              <td>{{ $order->order_no }}</td>
-              <td>{{ $order->style }}</td>
-              <td>{{ $order->buyer }}</td>
-              <td>{{ $order->gmt_delivery }}</td>
-              @php
-              $class = [
-              1 => 'badge bg-warning fw-bold text-dark p-2 fs-2 rounded-pill shadow-sm border-0',
-              2 => 'badge bg-primary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
-              3 => 'badge bg-secondary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
-              4 => 'badge bg-success fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
-              ];
-
-              $orderStatus = [
-              1 => 'Pending',
-              2 => 'Approved by Merchandiser',
-              3 => 'Approved by Follow Up',
-              4 => 'Approved by Purchasing',
-              ];
-              @endphp
-
-              <td>
-                <button data-bs-toggle="modal" data-bs-target="#statusModal"
-                  class="{{ $class[$order->status] ?? 'badge bg-dark text-light p-2 fs-6 rounded-pill shadow-sm' }}">
-                  {{ $orderStatus[$order->status] ?? 'Unknown Status' }}
-                </button>
-              </td>
-              <td><a class="badge bg-info fw-bold text-light p-2 fs-2 text  shadow-sm border-0"
-                  href="{{ route('data-get', ['po_no' => $order->po_no]) }}">Add Data</a></td>
-
-              <td>
-                <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
-                <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
-                    class="fa-solid fa-file-pen"></i></a>
-                {{-- <a class="badge text-bg-danger"><i class="fa-solid fa-trash"></i></a> --}}
-              </td>
-            </tr>
-            @endforeach
-            </tbody>
-            </table>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <x-js></x-js>
+    <x-js></x-js>
 </body>
 
 </html>

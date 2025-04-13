@@ -8,13 +8,13 @@
             <header class="app-header">
                 <x-navbar :session="$session">Order Form</x-navbar>
             </header>
-            <div class="container-fluid min-vh-100">
+            <div class="container-fluid">
                 @if (session('error'))
                 <div class="alert alert-danger">
                     {{ session('error') }}
                 </div>
                 @endif
-                <x-form-edit :order="$order"></x-form-edit>
+                <x-carton-edit-form :order="$order" :polybag="$polybag" :carton="$carton"></x-carton-edit-form>
             </div>
         </div>
         <x-js></x-js>

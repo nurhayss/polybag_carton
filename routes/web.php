@@ -36,7 +36,14 @@ Route::post('form-update', [FormController::class, 'formUpdate'])->name('form-up
 Route::post('form-delete/{id}', [FormController::class, 'formDelete'])->name('form-delete');
 Route::get('detail-form', [FormController::class, 'detailForm'])->name('detail-form');
 Route::get('data-get/{po_no}', [FormController::class, 'dataGet'])->name('data-get');
-Route::post('data-create', [FormController::class, 'dataCreate'])->name('data-create');
+Route::post('polybag-create', [FormController::class, 'dataCreatePolybag'])->name('polybag-create');
+Route::post('carton-create', [FormController::class, 'dataCreateCarton'])->name('carton-create');
+Route::get('polybag-edit/{po_no}/{id}', [FormController::class, 'polybagEdit'])->name('polybag-edit');
+Route::get('carton-edit/{po_no}/{id}', [FormController::class, 'cartonEdit'])->name('carton-edit');
+Route::post('carton-update', [FormController::class, 'cartonUpdate'])->name('carton-update');
+Route::post('polybag-update', [FormController::class, 'polybagUpdate'])->name('polybag-update');
+Route::post('polybag-delete/{id}', [FormController::class, 'polybagDelete'])->name('polybag-delete');
+Route::post('carton-delete/{id}', [FormController::class, 'cartonDelete'])->name('carton-delete');
 
 
 //Account Features

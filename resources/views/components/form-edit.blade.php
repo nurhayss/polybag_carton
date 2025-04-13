@@ -47,10 +47,11 @@
     }
 </style>
 
-@props(['order','polybag','carton'])
+@props(['order']);
+
 <form action="{{ route('form-update') }}" method="POST">
     @csrf
-    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    <div id="OrderContainer" class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div
             class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
             <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Order Section</h5>
@@ -63,24 +64,29 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">PO Number</label>
-                        <input type="text" class="form-control" name="po_no" value="{{ $order->po_no }}" readonly>
+                        <input type="text" class="form-control" name="po_no" value="{{ $order->po_no }}">
                     </div>
                 </div>
             </div>
+
+            @php
+            $hasExisting = $order->count() > 0;
+            @endphp
+
             <div class="row">
                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Order Number</label>
-                        <input type="text" class="form-control" name="order_no" value="{{ $order->order_no }}" readonly>
-                    </div>
+                    <label class="form-label fw-semibold">Order Number</label>
+                    <input type="text" class="form-control" name="order_no" value="{{ $order->order_no }}">
                 </div>
+
                 <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Style</label>
-                        <input type="text" class="form-control" name="style" value="{{ $order->style }}">
-                    </div>
+                    <label class="form-label fw-semibold">Style</label>
+                    <input type="text" class="form-control" name="style" id="styleInput" value="{{ $order->style }}">
                 </div>
             </div>
+
+
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="mb-3">
@@ -102,210 +108,48 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Shipment</label>
                         <select name="shipment" id="shipment" class="form-select">
-                            <option disabled {{ empty($order->shipment) ? 'selected' : '' }}>
-                                Pilih Pengiriman
+                            <option disabled selected>Pilih Pengiriman</option>
+                            <option value="1" {{ old('shipment', $order->shipment) == 1 ? 'selected' : '' }}>Sea
                             </option>
-                            <option value="1" {{ $order->shipment == 1 ? 'selected' : '' }}>Sea</option>
-                            <option value="2" {{ $order->shipment == 2 ? 'selected' : '' }}>Air</option>
+                            <option value="2" {{ old('shipment', $order->shipment) == 2 ? 'selected' : '' }}>Air
+                            </option>
                         </select>
                     </div>
+
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Location</label>
                         <input type="text" class="form-control" name="location" value="{{ $order->location }}">
                     </div>
                 </div>
-                <div class="col-md-4">
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">GMT Delivery</label>
                         <input type="date" class="form-control" name="gmt_delivery" value="{{ $order->gmt_delivery }}">
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="polybagContainer" class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div
-            class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
-            <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Polybag Section</h5>
-            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="addCardBtn">
-                <i class="fa fa-plus"></i>
-            </button>
-            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="removeCardBtn">
-                <i class="fa fa-minus"></i>
-            </button>
-            <button class="btn btn-link p-0 border-0 shadow-lg toggle-btn ms-auto">
-                <i class="fa-solid fa-circle-chevron-down fs-6 text-white"></i>
-            </button>
-        </div>
-        <div class="card-body p-4 d-none">
-            <div class="row mt-3 mb-2">
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="mb-3">
-                        @php
-                        $packingOptions = [
-                        1 => 'Biasa',
-                        2 => 'Hanger Lubang 1',
-                        3 => 'Hanger Lubang 2',
-                        4 => 'Lidah',
-                        5 => 'Gusset',
-                        6 => 'Hanger',
-                        ];
-                        @endphp
+                        <label class="form-label fw-semibold">
+                            Arrived At
+                            <i class=" fs-4 fa fa-circle-question text-secondary ms-1" data-bs-toggle="tooltip"
+                                data-bs-placement="right" title="Opsional"></i>
+                        </label>
+                        <input type="date" class="form-control" name="arrived_at" value="{{ $order->arrived_at }}">
+                    </div>
 
-                        <div class="d-flex justify-content-between flex-wrap gap-2">
-                            @foreach ($packingOptions as $value => $label)
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="packing[]" id="pack{{ $value }}"
-                                    value="{{ $value }}" {{ in_array($value, $order->packing) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="pack{{ $value }}">{{ $label }}</label>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Pack</label>
-                        <select name="pack" class="form-select" id="">
-                            <option disabled {{ empty($polybag->pack ? 'selected' : '') }}>Pilih Pack</option>
-                            <option value="1" {{ $polybag->pack == 1 ? 'selected' : '' }}>Solid</option>
-                            <option value="2" {{ $polybag->pack == 2 ? 'selected' : '' }}>Assort</option>
-                            <option value="3" {{ $polybag->pack == 3 ? 'selected' : '' }}>Individual (.com)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Size</label>
-                        <input type="text" class="form-control" name="size" value="{{ $polybag->size }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="form-label fw-semibold">Ukuran (p x l)</label>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Panjang" name="length"
-                            value="{{ $polybag->length }}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Lebar" name="width"
-                            value="{{ $polybag->width }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Isi/Polybag</label>
-                        <input type="number" class="form-control" name="isi" value="{{ $polybag->isi }}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Kebutuhan</label>
-                        <input type="number" class="form-control" name="kebutuhan" value="{{ $polybag->kebutuhan }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Quantity Order</label>
-                        <input type="number" class="form-control" name="qty_order" value="{{ $polybag->qty_order }}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Quantity Beli</label>
-                        <input type="number" class="form-control" name="qty_beli" value="{{ $polybag->qty_beli }}">
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="cartonSection" class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        <div
-            class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
-            <h5 class="card-title fw-bold m-0 text-white flex-grow-1">Carton Section</h5>
-            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="addCartonBtn">
-                <i class="fa fa-plus"></i>
-            </button>
-            <button class="btn btn-link p-0 text-white border-0 me-3" type="button" id="removeCartonBtn">
-                <i class="fa fa-minus"></i>
-            </button>
-            <button class="btn btn-link p-0 border-0 shadow-lg toggle-btn ms-auto">
-                <i class="fa-solid fa-circle-chevron-down fs-6 text-white"></i>
-            </button>
-        </div>
-        <div class="card-body p-4 d-none">
-            <div class="row">
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Packing</label>
-                        <input type="text" class="form-control" name="carton_packing" value="{{ $carton->packing }}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Quality</label>
-                        <input type="text" class="form-control" name="quality" value="{{ $carton->quality }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="form-label fw-semibold">Ukuran (p x l x t)</label>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Panjang" name="carton_length"
-                            value="{{ $carton->length }}">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Lebar" name="carton_width"
-                            value="{{ $carton->width }}">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <input type="number" class="form-control" placeholder="Tinggi" name="carton_height"
-                            value="{{ $carton->height }}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Volume</label>
-                        <input type="text" class="form-control" name="volume" value="{{ $carton->volume }}">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Isi</label>
-                        <input type="text" class="form-control" name="qty" value="{{ $carton->qty }}">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Berat</label>
-                        <input type="text" class="form-control" name="weight" value="{{ $carton->weight }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-md-3 ms-auto text-end">
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#submitModal">
@@ -316,16 +160,48 @@
 
 
     <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel">Submission Confirmation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="p-3 mb-3 bg-primary border-bottom">
+                    <div class="p-3 mb-4 bg-primary border-bottom">
+                        <h5 class="m-0 fw-bold text-white">Polybag Packing</h5>
+                    </div>
+                    <div class="row mt-3 mb-2">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    @php
+                                    $packingOptions = [
+                                    1 => 'Biasa',
+                                    2 => 'Hanger Lubang 1',
+                                    3 => 'Hanger Lubang 2',
+                                    4 => 'Lidah',
+                                    5 => 'Gusset',
+                                    6 => 'Hanger'
+                                    ];
+                                    @endphp
+
+                                    @foreach ($packingOptions as $value => $label)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="packing[]"
+                                            id="pack{{ $value }}" value="{{ $value }}" {{ in_array($value,
+                                            old('packing', $order->packing ?? [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="pack{{ $value }}">{{ $label }}</label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="p-3 mb-3 mt-5 bg-primary border-bottom">
                         <h5 class="m-0 fw-bold text-white">Polybag Notes</h5>
                     </div>
+
                     <div class="row mb-2">
                         <div class="col-md-12">
                             <div class="mb-3">
@@ -334,14 +210,16 @@
                                     <div class="col-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="plastic_quality" id="pe"
-                                                value="1" {{ $order->plastic_quality == 1 ? 'checked' : '' }}>
+                                                value="1" {{ old('plastic_quality', $order->plastic_quality ?? '') == 1
+                                            ? 'checked' : '' }}>
                                             <label class="form-check-label" for="pe">PE</label>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" name="plastic_quality" id="pp"
-                                                value="2" {{ $order->plastic_quality == 2 ? 'checked' : '' }}>
+                                                value="2" {{ old('plastic_quality', $order->plastic_quality ?? '') == 2
+                                            ? 'checked' : '' }}>
                                             <label class="form-check-label" for="pp">PP</label>
                                         </div>
                                     </div>
@@ -349,28 +227,30 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Ketebalan</label>
                                 <input type="text" class="form-control" name="thickness"
-                                    value="{{ $order->thickness }}">
+                                    value="{{ old('thickness', $order->thickness ?? '') }}">
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
                                 <label for="print_warning" class="form-label fw-semibold">Print Warning</label>
                                 <textarea class="form-control" id="print_warning" name="print_warning" cols="30"
-                                    rows="5">{{ $order->print_warning }}</textarea>
+                                    rows="5">{{ old('print_warning', $order->print_warning ?? '') }}</textarea>
                             </div>
-
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" value="{{ $order->id }}" name="id">
+                    <input type="hidden" name="id" value="{{ $order->id }}">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -383,3 +263,29 @@
 <script src="{{ asset('assets/js/minimize-card-form.js') }}"></script>
 <script src="{{ asset('assets/js/add-polybag-form.js') }}"></script>
 <script src="{{ asset('assets/js/add-carton-form.js') }}"></script>
+<script>
+    document.getElementById('gambarInput').addEventListener('change', function (event) {
+        const input = event.target;
+        const preview = document.getElementById('previewGambar');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.style.display = 'none';
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>

@@ -44,73 +44,47 @@ class FormService
         }
     }
 
-    // public function updateOrder($order, array $validatedData, $session)
-    // {
-    //     DB::beginTransaction();
-    //     try {
-    //         $order->update([
-    //             'po_no'            => $validatedData['po_no'],
-    //             'order_no'         => $validatedData['order_no'],
-    //             'style'            => $validatedData['style'],
-    //             'date'             => $validatedData['date'],
-    //             'buyer'            => $validatedData['buyer'],
-    //             'qty_garment'      => $validatedData['qty_garment'],
-    //             'shipment'         => $validatedData['shipment'],
-    //             'location'         => $validatedData['location'],
-    //             'gmt_delivery'     => $validatedData['gmt_delivery'],
-    //             'arrived_at'     => $validatedData['arrived_at'],
-    //             'packing'          => $validatedData['packing'],
-    //             'plastic_quality'  => $validatedData['plastic_quality'],
-    //             'thickness'        => $validatedData['thickness'],
-    //             'print_warning'    => $validatedData['print_warning'],
-    //             'created_by'       => $session->name,
-    //             'created_date'     => Carbon::now(),
-    //             'status'           => 1,
-    //         ]);
+    public function updateOrder($order, array $validatedData, $session)
+    {
+
+        DB::beginTransaction();
+        try {
+            $tes = $order->update([
+                'po_no'            => $validatedData['po_no'],
+                'order_no'         => $validatedData['order_no'],
+                'style'            => $validatedData['style'],
+                'date'             => $validatedData['date'],
+                'buyer'            => $validatedData['buyer'],
+                'qty_garment'      => $validatedData['qty_garment'],
+                'shipment'         => $validatedData['shipment'],
+                'location'         => $validatedData['location'],
+                'gmt_delivery'     => $validatedData['gmt_delivery'],
+                'arrived_at'       => $validatedData['arrived_at'],
+                'packing'          => $validatedData['packing'],
+                'plastic_quality'  => $validatedData['plastic_quality'],
+                'thickness'        => $validatedData['thickness'],
+                'print_warning'    => $validatedData['print_warning'],
+                'created_by'       => $session->name,
+                'created_date'     => Carbon::now(),
+                'status'           => 1,
+            ]);
 
 
-    //         $order->polybags()->update([
-    //             'pack'      => $validatedData['pack'],
-    //             'size'      => $validatedData['size'],
-    //             'length'    => $validatedData['length'],
-    //             'width'     => $validatedData['width'],
-    //             'qty_order' => $validatedData['qty_order'],
-    //             'isi'       => $validatedData['isi'],
-    //             'kebutuhan' => $validatedData['kebutuhan'],
-    //             'qty_beli'  => $validatedData['qty_beli'],
-    //             'image'   => $validatedData['image'],
+            DB::commit();
+            return true;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return false;
+        }
+    }
 
-    //         ]);
 
-    //         $order->cartons()->update([
-    //             'packing'   => $validatedData['carton_packing'],
-    //             'quality'   => $validatedData['quality'],
-    //             'length'    => $validatedData['carton_length'],
-    //             'width'     => $validatedData['carton_width'],
-    //             'height'    => $validatedData['carton_height'],
-    //             'volume'    => $validatedData['volume'],
-    //             'qty'       => $validatedData['qty'],
-    //             'weight'    => $validatedData['weight'],
-    //             'total_order'        => $validatedData['total_order'],
-
-    //         ]);
-
-    //         DB::commit();
-    //         return $order;
-    //     } catch (\Throwable $e) {
-    //         DB::rollBack();
-    //         throw $e;
-    //     }
-    // }
-
-    public function createData(array $validatedData, $session)
+    public function createPolybag(array $validatedData): Polybag
     {
         DB::beginTransaction();
         try {
-            $order_id = $validatedData['order_id'];
-
-            Polybag::create([
-                'order_id'   => $order_id,
+            $polybag = Polybag::create([
+                'order_id'   => $validatedData['order_id'],
                 'pack'       => $validatedData['pack'],
                 'size'       => $validatedData['size'],
                 'length'     => $validatedData['length'],
@@ -119,29 +93,92 @@ class FormService
                 'isi'        => $validatedData['isi'],
                 'kebutuhan'  => $validatedData['kebutuhan'],
                 'qty_beli'   => $validatedData['qty_beli'],
-                'image'      => $validatedData['image'],
-            ]);
-
-            Carton::create([
-                'order_id'       => $order_id,
-                'packing'        => $validatedData['carton_packing'],
-                'quality'        => $validatedData['quality'],
-                'length'         => $validatedData['carton_length'],
-                'width'          => $validatedData['carton_width'],
-                'height'         => $validatedData['carton_height'],
-                'volume'         => $validatedData['volume'],
-                'qty'            => $validatedData['qty'],
-                'weight'         => $validatedData['weight'],
-                'total_order'    => $validatedData['total_order'],
+                'image'      => $validatedData['image'] ?? null,
             ]);
 
             DB::commit();
-            return $order_id;
+            return $polybag;
         } catch (\Throwable $e) {
             DB::rollBack();
             throw $e;
         }
     }
+
+
+    public function createCarton(array $validatedData): int
+    {
+        DB::beginTransaction();
+        try {
+            $carton = Carton::create([
+                'order_id'    => $validatedData['order_id'],
+                'packing'     => $validatedData['carton_packing'],
+                'quality'     => $validatedData['quality'],
+                'length'      => $validatedData['carton_length'],
+                'width'       => $validatedData['carton_width'],
+                'height'      => $validatedData['carton_height'],
+                'volume'      => $validatedData['volume'],
+                'qty'         => $validatedData['qty'],
+                'weight'      => $validatedData['weight'],
+                'total_order' => $validatedData['total_order'],
+            ]);
+
+            DB::commit();
+            return $carton->order_id;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+
+
+    public function updatePolybag(array $data, int $polybagId): bool
+    {
+        $validated = $this->validatePolybagData($data);
+
+        $polybag = Polybag::findOrFail($polybagId);
+
+        $polybag->update([
+            'order_id'   => $validated['order_id'],
+            'pack'       => $validated['pack'],
+            'size'       => $validated['size'],
+            'length'     => $validated['length'],
+            'width'      => $validated['width'],
+            'qty_order'  => $validated['qty_order'],
+            'isi'        => $validated['isi'],
+            'kebutuhan'  => $validated['kebutuhan'],
+            'qty_beli'   => $validated['qty_beli'],
+        ]);
+
+        return true;
+    }
+
+    public function updateCarton(array $data): bool
+    {
+        $validated = $this->validateCartonData($data);
+
+        $carton = Carton::where('order_id', $validated['order_id'])->first();
+
+        if (!$carton) {
+            $carton = new Carton(['order_id' => $validated['order_id']]);
+        }
+
+        $carton->fill([
+            'packing'     => $validated['carton_packing'],
+            'quality'     => $validated['quality'],
+            'length'      => $validated['carton_length'],
+            'width'       => $validated['carton_width'],
+            'height'      => $validated['carton_height'],
+            'volume'      => $validated['volume'],
+            'qty'         => $validated['qty'],
+            'weight'      => $validated['weight'],
+            'total_order' => $validated['total_order'],
+        ])->save();
+
+        return true;
+    }
+
+
 
 
     public function validateOrder(array $data): array
@@ -157,10 +194,10 @@ class FormService
             'location'     => 'required|string',
             'gmt_delivery' => 'required|date',
             'arrived_at'   => 'nullable|date',
-            'packing'      => 'required',
-            'plastic_quality' => 'required',
-            'thickness'    => 'required',
-            'print_warning' => 'required',
+            'packing'      => 'required|array',
+            'plastic_quality' => 'required|integer',
+            'thickness'    => 'required|string',
+            'print_warning' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -170,20 +207,43 @@ class FormService
         return $validator->validated();
     }
 
-    public function validateData(array $data): array
+
+    public function validatePolybagData(array $data): array
+    {
+        $rules = [
+            'order_id'   => 'required|exists:orders,id',
+            'pack'       => 'required|string',
+            'size'       => 'required|string',
+            'length'     => 'required|numeric',
+            'width'      => 'required|numeric',
+            'qty_order'  => 'required|integer',
+            'isi'        => 'required|integer',
+            'kebutuhan'  => 'required|integer',
+            'qty_beli'   => 'required|integer',
+        ];
+
+        $validator = validator($data, $rules);
+
+        if (isset($data['image']) && !empty($data['image'])) {
+            $rules['image'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+        }
+
+        $validator = validator($data, $rules);
+
+        if ($validator->fails()) {
+            dd($validator->errors());
+        }
+
+        return $validator->validated();
+    }
+
+
+
+
+    public function validateCartonData(array $data): array
     {
         $validator = validator($data, [
-            'order_id'    => 'required|exists:orders,id',
-            'pack'        => 'required|string',
-            'size'        => 'required|string',
-            'length'      => 'required|numeric',
-            'width'       => 'required|numeric',
-            'qty_order'   => 'required|integer',
-            'isi'         => 'required|integer',
-            'kebutuhan'   => 'required|integer',
-            'qty_beli'    => 'required|integer',
-            'image'       => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
+            'order_id'       => 'required|exists:orders,id',
             'carton_packing' => 'required|string',
             'quality'        => 'required|string',
             'carton_length'  => 'required|numeric',

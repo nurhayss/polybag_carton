@@ -1,6 +1,6 @@
 @props(['order'])
 
-<form action="{{ route('data-create') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('polybag-create') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div id="polybagContainer" class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div
@@ -87,8 +87,21 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3 ms-auto text-end px-3 mb-3">
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
         </div>
+
+
     </div>
+</form>
+<form action="{{ route('carton-create') }}" method="POST">
+    @csrf
     <div id="cartonSection" class="card shadow-lg border-0 rounded-4 overflow-hidden">
         <div
             class="card-header text-white py-3 bg-gradient bg-primary d-flex justify-content-between align-items-center">
@@ -156,17 +169,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3 ms-auto text-end px-3 mb-3">
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
         </div>
+
+
     </div>
 
-    <div class="row">
-        <div class="col-md-3 ms-auto text-end">
-            <input type="hidden" name="order_id" value="{{ $order->id }}">
-            <button type="submit" class="btn btn-primary">
-                Submit
-            </button>
-        </div>
-    </div>
 </form>
 
 

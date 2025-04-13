@@ -18,11 +18,12 @@
 
                 <x-data-form :order="$order" />
 
+                <hr class="my-4" style="height: 2px; background-color: black; border: none;">
 
                 <div class="mt-5 card ">
-                    @if (session('success'))
+                    @if (session('polybag_success'))
                     <div class="alert alert-success m-3">
-                        {{ session('success') }}
+                        {{ session('polybag_success') }}
                     </div>
                     @endif
 
@@ -44,10 +45,39 @@
                                             <th>Isi</th>
                                             <th>Kebutuhan</th>
                                             <th>Qty Beli</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($order->polybags as $polybag)
+                                        <div class="modal fade" id="deleteModal-{{ $polybag->id }}" tabindex="-1"
+                                            aria-labelledby="deleteModalLabel-{{ $polybag->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('polybag-delete', ['id' => $polybag->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="deleteModalLabel-{{ $polybag->id }}">Konfirmasi
+                                                                Hapus</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Apakah Anda yakin ingin menghapus data polybag ini?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="{{ $polybag->id }}">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $polybag->pack }}</td>
@@ -57,6 +87,17 @@
                                             <td>{{ $polybag->isi }}</td>
                                             <td>{{ $polybag->kebutuhan }}</td>
                                             <td>{{ $polybag->qty_beli }}</td>
+                                            <td>
+                                                <a href="{{ route('polybag-edit', ['po_no' => $order->po_no, 'id' => $polybag->id]) }}"
+                                                    class="badge text-bg-warning">
+                                                    <i class="fa-solid fa-file-pen"></i>
+                                                </a>
+                                                <a href="#" class="badge text-bg-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal-{{ $polybag->id }}">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </a>
+
+                                            </td>
                                         </tr>
                                         @empty
                                         @endforelse
@@ -67,9 +108,9 @@
                     </div>
                 </div>
                 <div class="mt-5 card ">
-                    @if (session('success'))
+                    @if (session('carton_success'))
                     <div class="alert alert-success m-3">
-                        {{ session('success') }}
+                        {{ session('carton_success') }}
                     </div>
                     @endif
 
@@ -91,10 +132,39 @@
                                             <th>Qty</th>
                                             <th>Weight</th>
                                             <th>Total Order</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($order->cartons as $carton)
+                                        <div class="modal fade" id="deleteCarton-{{ $carton->id }}" tabindex="-1"
+                                            aria-labelledby="deleteModalLabel-{{ $carton->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <form action="{{ route('carton-delete', ['id' => $carton->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="deleteModalLabel-{{ $carton->id }}">Konfirmasi
+                                                                Hapus</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Apakah Anda yakin ingin menghapus data carton ini?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" value="{{ $carton->id }}">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Batal</button>
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $carton->packing }}</td>
@@ -105,6 +175,17 @@
                                             <td>{{ $carton->qty }}</td>
                                             <td>{{ $carton->weight }}</td>
                                             <td>{{ $carton->total_order_formatted }}</td>
+                                            <td>
+                                                <a href="{{ route('carton-edit', ['po_no' => $order->po_no, 'id' => $carton->id]) }}"
+                                                    class="badge text-bg-warning">
+                                                    <i class="fa-solid fa-file-pen"></i>
+                                                    <a href="#" class="badge text-bg-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteCarton-{{ $carton->id }}">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+
+
+                                            </td>
                                         </tr>
                                         @empty
                                         @endforelse

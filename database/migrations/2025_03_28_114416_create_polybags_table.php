@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('isi');
             $table->integer('kebutuhan');
             $table->integer('qty_beli');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
