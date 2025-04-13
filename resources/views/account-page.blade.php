@@ -136,6 +136,34 @@
                                         </thead>
                                         <tbody>
                                             @foreach($users as $user)
+                                            <div class="modal fade" id="deleteModal-{{ $user->id }}" tabindex="-1"
+                                                aria-labelledby="deleteModalLabel-{{ $user->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form action="{{ route('delete-user', $user->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="deleteModalLabel-{{ $user->id }}">Konfirmasi
+                                                                    Hapus</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Tutup"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Apakah Anda yakin ingin menghapus data user ini?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Hapus</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -147,10 +175,14 @@
                                                 @endphp
                                                 <td>{{ $roleUser[$user->role] }}</td>
                                                 <td>
-                                                    <a href="" class="badge text-bg-warning"><i
+                                                    <a href="{{ route('edit-user', ['id' => $user->id]) }}"
+                                                        class="badge text-bg-warning"><i
                                                             class="fa-solid fa-file-pen"></i></a>
-                                                    <a class="badge text-bg-danger"><i
-                                                            class="fa-solid fa-trash"></i></a>
+                                                    <a href="#" class="badge text-bg-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#deleteModal-{{ $user->id }}">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                             @endforeach

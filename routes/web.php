@@ -48,3 +48,6 @@ Route::post('carton-delete/{id}', [FormController::class, 'cartonDelete'])->name
 
 //Account Features
 Route::post('create-user', [AccountController::class, 'createUser'])->name('create-user');
+Route::get('edit-user/{id}', [AccountController::class, 'editUser'])->name('edit-user');
+Route::post('delete-user/{id}', [AccountController::class, 'deleteUser'])->name('delete-user');
+Route::post('update-user', [AccountController::class, 'updateUser'])->name('update-user');
