@@ -174,6 +174,7 @@
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
                       @endif
+                      <a href="#" class="badge text-bg-primary"><i class="fa-solid fas fa-save"></i></a>
                       {{-- <a class="badge text-bg-danger"><i class="fa-solid fa-trash"></i></a> --}}
                     </td>
                   </tr>
