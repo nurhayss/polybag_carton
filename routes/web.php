@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MainController;
@@ -44,7 +45,7 @@ Route::post('carton-update', [FormController::class, 'cartonUpdate'])->name('car
 Route::post('polybag-update', [FormController::class, 'polybagUpdate'])->name('polybag-update');
 Route::post('polybag-delete/{id}', [FormController::class, 'polybagDelete'])->name('polybag-delete');
 Route::post('carton-delete/{id}', [FormController::class, 'cartonDelete'])->name('carton-delete');
-Route::get('polybag/{po_no}/print', [FormController::class,'printData'])->name('polybag.cetak');
+Route::get('polybag/{po_no}/print', [FormController::class, 'printData'])->name('cetak');
 
 
 //Account Features
@@ -52,3 +53,6 @@ Route::post('create-user', [AccountController::class, 'createUser'])->name('crea
 Route::get('edit-user/{id}', [AccountController::class, 'editUser'])->name('edit-user');
 Route::post('delete-user/{id}', [AccountController::class, 'deleteUser'])->name('delete-user');
 Route::post('update-user', [AccountController::class, 'updateUser'])->name('update-user');
+
+//Approval Features
+Route::post('create-approval', [ApprovalController::class, 'createApproval'])->name('create-approval');

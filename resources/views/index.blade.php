@@ -137,7 +137,8 @@
                     @endif
 
                     <td>
-                      <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
+                      <a href="{{ route('cetak', ['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
+                          class="fa-solid fa-eye"></i></a>
                       @if($session->role == 1)
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
@@ -146,9 +147,6 @@
                     </td>
                   </tr>
                   @empty
-                  <tr>
-                    <td colspan="9" class="text-center">No orders found.</td>
-                  </tr>
                   @endforelse
                 </tbody>
               </table>

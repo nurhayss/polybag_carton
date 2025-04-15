@@ -51,13 +51,11 @@ class FormController extends Controller
         $data = [
             'session' => $session,
             'order' => $order,
+            'order' => $order,
+            'logo' => asset('/assets/images/logo-polybag.png'),
         ];
 
-        return view('cetak', [
-            'order' => $order,
-            'data' => $data,
-            'logo' => asset('/assets/images/logo-polybag.png'),
-        ]);
+        return view('cetak', $data);
     }
 
     public function dataCreatePolybag(Request $request)
