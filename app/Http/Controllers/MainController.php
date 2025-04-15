@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApprovalLogs;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,9 @@ class MainController extends Controller
     public function index()
     {
         $session = session('user');
-        $orders = Order::get();
+        $orders = Order::with('approval.user')->get();
+       
+
 
         $data = [
             'session' => $session,

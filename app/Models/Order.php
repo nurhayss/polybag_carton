@@ -48,6 +48,10 @@ class Order extends Model
     {
         return $this->hasMany(Carton::class);
     }
+    public function approval(): HasMany
+    {
+        return $this->hasMany(Carton::class, 'id', 'order_id');
+    }
 
     public function setPackingAttribute($value)
     {
