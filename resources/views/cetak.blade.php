@@ -227,8 +227,8 @@
         </tr>
         <tr>
           <td>ISI / POLYBAG</td>
-          <td></td>
           <td>{{ $polybag->isi }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -239,8 +239,8 @@
         </tr>
         <tr>
           <td>KEBUTUHAN</td>
+          <td>>{{ $polybag->kebutuhan }}</td>
           <td></td>
-          <td>{{ $polybag->kebutuhan }}</td>
           <td></td>
           <td></td>
           <td></td>
@@ -251,8 +251,8 @@
         </tr>
         <tr>
           <td>QTY BELI</td>
-          <td></td>
           <td>{{ $polybag->qty_beli }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -271,8 +271,8 @@
       <table>
         <tr>
           <th>SIZE</th>
-          <td></td>
           <td>{{ $polybag->size }}</td>
+          <td></td>
           <th> </th>
           <th> </th>
           <th> </th>
@@ -283,8 +283,8 @@
         </tr>
         <tr>
           <td>UKURAN (P x L)</td>
-          <td></td>
           <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -295,8 +295,8 @@
         </tr>
         <tr>
           <td>QTY ORDER</td>
-          <td></td>
           <td>{{ $polybag->qty_order }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -307,8 +307,8 @@
         </tr>
         <tr>
           <td>ISI / POLYBAG</td>
-          <td></td>
           <td>{{ $polybag->isi }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -319,8 +319,8 @@
         </tr>
         <tr>
           <td>KEBUTUHAN</td>
-          <td></td>
           <td>{{ $polybag->kebutuhan }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -331,8 +331,8 @@
         </tr>
         <tr>
           <td>QTY BELI</td>
-          <td></td>
           <td>{{ $polybag->qty_beli }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -351,8 +351,8 @@
       <table>
         <tr>
           <th>SIZE</th>
-          <th>  </th>
-          <th> {{ $polybag->size }}  </th>
+          <th>{{ $polybag->size }}</th>
+          <th> </th>
           <th> </th>
           <th> </th>
           <th> </th>
@@ -363,8 +363,8 @@
         </tr>
         <tr>
           <td>UKURAN (P x L)</td>
-          <td></td>
           <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -375,8 +375,8 @@
         </tr>
         <tr>
           <td>QTY ORDER</td>
-          <td></td>
           <td>{{ $polybag->qty_order }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -387,8 +387,8 @@
         </tr>
         <tr>
           <td>ISI / POLYBAG</td>
-          <td></td>
           <td>{{ $polybag->isi }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -399,8 +399,8 @@
         </tr>
         <tr>
           <td>KEBUTUHAN</td>
-          <td></td>
           <td>{{ $polybag->kebutuhan }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -411,8 +411,8 @@
         </tr>
         <tr>
           <td>QTY BELI</td>
-          <td></td>
           <td>{{ $polybag->qty_beli }}</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -478,19 +478,19 @@
   </tr>
   <tr>
     <td>PAKAI EXPORT CARTON BIASA</td>
-    <td></td>
     <td>{{ $carton->packing }}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>{{ $carton->quality }}</td>
+    <td>{{ $carton->length }} x {{ $carton->width }} x {{ $carton->height }}</td>
+    <td>{{ $carton->volume }}</td>
+    <td>{{ $carton->qty }}</td>
+    <td>{{ $carton->weight }}</td>
     <td></td>
     <td>BOX</td>
   </tr>
   <tr>
     <td>PAKAI EXPORT CARTON BIASA</td>
     <td></td>
-    <td>{{ $carton->quality }}</td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -500,21 +500,21 @@
     </tr>
   <tr><td>PAKAI EXPORT CARTON BIASA</td>
     <td></td>
-    <td>{{ $carton->length }} x {{ $carton->width }} x {{ $carton->height }}</td>        
+    <td></td>        
     <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
   <tr><td>PAKAI EXPORT CARTON BIASA</td>
     <td></td>
-    <td>{{ $carton->volume }}</td>
+    <td></td>
     <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
   <tr>
     <td>PAKAI LAYER</td>
     <td></td>
-    <td>{{ $carton->qty }}</td>
+    <td></td>
     <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
   <tr>
     <td>PAKAI LAYER</td>
     <td></td>
-    <td>{{ $carton->weight }}</td>
+    <td></td>
     <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
   <tr><td><strong>ALAMAT KIRIM:</strong> SAMBUNGAN SISI CARTON PAKAI LEM</td><td colspan="8"><strong>KETERANGAN:</strong> </td></tr>
 </table>
