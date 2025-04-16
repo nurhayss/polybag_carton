@@ -55,39 +55,66 @@
                         <div class="modal-body px-4 py-4 bg-light">
                           @php
                           $validations = [
-                          'Merchandiser' => ['status' => 1, 'date' => $order->created_date ?? null, 'by' =>
-                          $order->created_by ?? 'Belum diproses'],
-                          'Follow Up' => ['status' => 2, 'date' => $order->follow_up_date ?? null, 'by' =>
-                          $order->follow_up ?? 'Belum diproses'],
-                          'Purchasing' => ['status' => 3, 'date' => $order->purchasing_date ?? null, 'by' =>
-                          $order->purchasing ?? 'Belum diproses'],
+                          'Merchandiser' => [
+                          'status' => 1,
+                          'date' => $order->created_date ?? null,
+                          'by' => $order->created_by ?? 'Belum diproses',
+                          'is_rejected' => $order->status === -1,
+                          ],
+                          'Follow Up' => [
+                          'status' => 2,
+                          'date' => $order->follow_up_date ?? null,
+                          'by' => $order->follow_up ?? 'Belum diproses',
+                          'is_rejected' => $order->status === -2,
+                          ],
+                          'Purchasing' => [
+                          'status' => 3,
+                          'date' => $order->purchasing_date ?? null,
+                          'by' => $order->purchasing ?? 'Belum diproses',
+                          'is_rejected' => $order->status === -3,
+                          ],
                           ];
                           @endphp
 
                           <div class="vstack gap-3">
                             @foreach ($validations as $title => $info)
-                            <div class="d-flex align-items-start bg-white p-3 rounded-3 shadow-sm border-start border-4 
-                              border-{{ $order->status >= $info['status'] ? 'success' : 'secondary' }}">
+                            @php
+                            $borderColor = $info['is_rejected'] ? 'danger' : ($order->status >= $info['status'] ?
+                            'success' : 'secondary');
+                            $iconClass = $info['is_rejected'] ? 'fa-circle-xmark text-danger' : ($order->status >=
+                            $info['status'] ? 'fa-circle-check text-success' : 'fa-hourglass-start text-secondary');
+                            @endphp
+
+                            <div
+                              class="d-flex align-items-start bg-white p-3 rounded-3 shadow-sm border-start border-4 border-{{ $borderColor }}">
                               <div class="me-3 pt-1">
-                                <i class="fa-solid 
-                                  {{ $order->status >= $info['status'] ? 'fa-circle-check text-success' : 'fa-hourglass-start text-secondary' }} 
-                                  fs-4"></i>
+                                <i class="fa-solid {{ $iconClass }} fs-4"></i>
                               </div>
                               <div>
                                 <h6 class="mb-1 fw-semibold">{{ $title }}</h6>
                                 <div class="text-black small">
-                                  @if ($order->status < $info['status']) Menunggu: @elseif ($info['status']==1) Dibuat
-                                    oleh: @else Disetujui oleh: @endif <strong>{{ $info['by'] }}</strong><br>
-                                    @if ($order->status >= $info['status'] && $info['date'])
+                                  @if ($info['is_rejected'])
+                                  Ditolak
+                                  @elseif ($order->status < $info['status']) Menunggu: <strong>{{ $info['by']
+                                    }}</strong><br>
+                                    @elseif ($info['status'] == 1)
+                                    Dibuat oleh: <strong>{{ $info['by'] }}</strong><br>
+                                    @else
+                                    Disetujui oleh: <strong>{{ $info['by'] }}</strong><br>
+                                    @endif
+
+                                    @if (($order->status >= $info['status'] || $info['is_rejected']) && $info['date'])
                                     <span class="text-black">{{ \Carbon\Carbon::parse($info['date'])->format('d M Y')
                                       }}</span>
                                     @endif
                                 </div>
+
                               </div>
                             </div>
                             @endforeach
                           </div>
                         </div>
+
 
                         <div class="modal-footer bg-white border-0 rounded-bottom-4">
                           <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-bs-dismiss="modal">
@@ -109,6 +136,9 @@
 
                     @php
                     $class = [
+                    -2 => 'badge bg-danger fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
+                    -3 => 'badge bg-danger fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
+                    -4 => 'badge bg-danger fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
                     1 => 'badge bg-warning fw-bold text-dark p-2 fs-2 rounded-pill shadow-sm border-0',
                     2 => 'badge bg-primary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
                     3 => 'badge bg-secondary fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0',
@@ -116,16 +146,17 @@
                     ];
 
                     $orderStatus = [
-                    1 => 'Pending',
-                    2 => 'Approved by Merchandiser',
-                    3 => 'Approved by Follow Up',
-                    4 => 'Approved by Purchasing',
+                    -2 => 'Rejected by Follow Up',
+                    -3 => 'Rejected by Purchasing',
+                    1 => 'Order created',
+                    2 => 'Approved by Follow Up',
+                    3 => 'Approved by Purchasing',
                     ];
                     @endphp
 
                     <td>
                       <button data-bs-toggle="modal" data-bs-target="#statusModal{{ $order->id }}"
-                        class="{{ $class[$order->status] ?? 'badge bg-dark text-light p-2 fs-6 rounded-pill shadow-sm' }}">
+                        class="{{ $class[$order->status] ?? 'badge bg-dark fw-bold text-light p-2 fs-2 rounded-pill shadow-sm border-0' }}">
                         {{ $orderStatus[$order->status] ?? 'Unknown Status' }}
                       </button>
                     </td>
@@ -137,7 +168,7 @@
                     @endif
 
                     <td>
-                      <a href="{{ route('polybag.cetak',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
+                      <a class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
                       @if($session->role == 1)
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
@@ -147,9 +178,6 @@
                     </td>
                   </tr>
                   @empty
-                  <tr>
-                    <td colspan="9" class="text-center">No orders found.</td>
-                  </tr>
                   @endforelse
                 </tbody>
               </table>

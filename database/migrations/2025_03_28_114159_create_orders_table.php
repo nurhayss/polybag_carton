@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('plastic_quality');
             $table->string('thickness');
             $table->string('print_warning');
+            $table->string('merchandiser')->nullable();
+            $table->date('merchandiser_date')->nullable();
             $table->string('follow_up')->nullable();
             $table->date('follow_up_date')->nullable();
             $table->string('marketing')->nullable();
