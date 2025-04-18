@@ -197,10 +197,10 @@
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
                       @endif
-                      @if ($order->status == 3 && $session->role == 1 || $session->role == 3)
-                      <a href="{{ route('download',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
+                      <!--@//if ($order->status == 3 && $session->role == 1 || $session->role == 3)
+                      <a href=" //route('download',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
                           class="fa-solid fas fa-save"></i></a>
-                      @endif
+                      //endif -->
                     </td>
                   </tr>
                   @empty

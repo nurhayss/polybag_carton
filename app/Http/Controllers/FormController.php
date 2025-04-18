@@ -81,14 +81,17 @@ class FormController extends Controller
             'session' => $session,
             'order' => $order,
             'logo' => public_path('assets/images/logo-polybag.png'),
-            // Memeriksa jika ada polybag dan mengambil gambar dari elemen pertama
             'image' => $order->polybags->isNotEmpty() ? public_path('storage/' . $order->polybags->first()->image) : null,
+            'isPdf' => true // ini kuncinya
         ];
         
         
         
-        $pdf = Pdf::loadView('cetak', $data);
+        
+        $pdf = Pdf::loadView('cetak', $data)->setPaper('Legal', 'portrait');
         return $pdf->download('PO_Number - ' . $id . '.pdf');
+
+        
     }
 
     public function dataCreatePolybag(Request $request)
