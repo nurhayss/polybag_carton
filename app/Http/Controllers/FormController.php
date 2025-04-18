@@ -101,9 +101,9 @@ class FormController extends Controller
             'order' => $order,
             'logo' => asset('/assets/images/logo-polybag.png'),
         ];
-        
+
         $pdf = Pdf::loadView('cetak', $data);
-        return $pdf->download('order-'.$id.'.pdf');        
+        return $pdf->download('PO_Number - ' . $id . '.pdf');
     }
 
     public function dataCreatePolybag(Request $request)

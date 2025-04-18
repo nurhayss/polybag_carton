@@ -45,7 +45,6 @@
                     aria-labelledby="modalLabel{{ $order->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-md">
                       <div class="modal-content border-0 shadow-lg rounded-4">
-
                         <div class="modal-header bg-dark text-white fw-bold rounded-top-4 px-4 py-3 border-0">
                           <i class="fa-solid fa-timeline me-2"></i> Validation Progress
                           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
@@ -146,7 +145,6 @@
                             <i class="fa-solid fa-xmark me-1"></i> TUTUP
                           </button>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -193,22 +191,25 @@
                     @endif
 
                     <td>
-                      <a href="{{ route('cetak', ['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
+                      <a href="{{ route('cetak',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
                           class="fa-solid fa-eye"></i></a>
                       @if($session->role == 1 && is_null($order->merchandiser))
-                      <a href="{{ route('cetak',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i class="fa-solid fa-eye"></i></a>
-                      @if($session->role == 1)
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
                       @endif
+                      @if ($order->status == 3)
                       <a href="{{ route('download',['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
                           class="fa-solid fas fa-save"></i></a>
-                      {{-- <a class="badge text-bg-danger"><i class="fa-solid fa-trash"></i></a> --}}
+                      @endif
                     </td>
                   </tr>
                   @empty
+                  <tr>
+                    <td colspan="7" class="text-center">No orders available.</td>
+                  </tr>
                   @endforelse
                 </tbody>
+
               </table>
 
             </div>
