@@ -50,7 +50,6 @@
   }
 
   .sketsa {
-    border: 1px solid #000;
     height: 120px;
     text-align: center;
     font-size: 10px;
@@ -194,345 +193,139 @@
 
     </tr>
   </table>
-  @forelse ($order->polybags as $polybag)
+  @php
+  $groupedPolybag = $order->polybags->groupBy('pack')->take(3);
+@endphp
+
+@foreach ($groupedPolybag as $pack => $polybags)
   <div class="flex">
+    {{-- BAGIAN GAMBAR --}}
     <div class="sketsa-column">
+      @foreach ($polybags->take(3) as $polybag) {{-- Batas 3 gambar --}}
+        <div class="sketsa-box">
+          <div class="sketsa">
+            <img style="width: 200px;" src="{{ $image }}" alt="Polybag Image">
+          </div>
+        </div>
+      @endforeach
+
       <div class="sketsa-box">
         <div class="sketsa">
-          <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}">
+          <p>
+            Catt : DI UKURAN POLYBAG, LINGKARI PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L)
+          </p>
         </div>
-      </div>
-      <div class="sketsa-box">
-        <div class="sketsa">
-          <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}">
-        </div>
-      </div>
-      <div class="sketsa-box">
-        <div class="sketsa">
-          <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}">
-        </div>
-    </div>
-    <div class="sketsa-box">
-      <div class="sketsa">
-        <p>Catt : DI UKURAN POLYBAG, LINGKARI PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L) PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L)</p>
       </div>
     </div>
 
+    {{-- BAGIAN TABEL --}}
+    <div class="table-column">  
+      <div class="form-table">
+        <div class="flex-container">
+          <span style="float:left;">Pack: {{ $pack }}</span>
+        </div>
+        <table class="with-border">
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>UKURAN (P x L)</th>
+              <th>QTY ORDER</th>
+              <th>ISI / POLYBAG</th>
+              <th>KEBUTUHAN</th>
+              <th>QTY BELI</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($polybags as $polybag)
+              <tr>
+                <td>{{ $polybag->size }}</td>
+                <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+                <td>{{ $polybag->qty_order }}</td>
+                <td>{{ $polybag->isi }}</td>
+                <td>{{ $polybag->kebutuhan }}</td>
+                <td>{{ $polybag->qty_beli }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="table-column">  
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    </div>
-  </div>  
-</div>
-@empty
-@endforelse
+@endforeach
+
 <p></p>
 <!-- Notes -->
 <div class="note">
   <div class="note-box">
-    @forelse ($order->cartons as $carton)
     <strong>Notes:</strong><br>
     <ul style="margin-top: 5px; padding-left: 15px;">
       @php
-      $peChecked = $order->plastic_quality === '1' ? '☑' : '☐';
-      $ppChecked = $order->plastic_quality === '2' ? '☑' : '☐';
-  @endphp
-  
-  <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
-        <li><strong>KETEBALAN:</strong> {{$order->thickness}} </li>
-      <li><strong>PRINT WARNING:</strong> {{$order->print_warning}} </li>
+        $peChecked = $order->plastic_quality === '1' ? '☑' : '☐';
+        $ppChecked = $order->plastic_quality === '2' ? '☑' : '☐';
+      @endphp
+
+      <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
+      <li><strong>KETEBALAN:</strong> {{ $order->thickness }}</li>
+      <li><strong>PRINT WARNING:</strong> {{ $order->print_warning }}</li>
     </ul>
   </div>
 </div>
-<p></p>
+
 <hr>
 
-  <!-- B. Carton Order Form -->
-  <p class="subheader">B. CARTON ORDER FORM</p>
-  <table class="noborder">
-    <tr>
-      <td><strong>Ref No. :</strong> GM</td>
-      <td><strong> </strong> </td>
-      <td><strong>Buyer:</strong> {{ $order->buyer }}</td>
-    </tr>
-    <tr>
-      <td><strong>ON STYLE:</strong> {{ $order->style }}</td>
-      <td><strong> </strong> </td>
-      <td><strong>Gmt. Delivery:</strong> {{ $order->gmt_delivery }}</td>
-    </tr>
-    <tr>
-      <td><strong>QTY Garment:</strong> {{ $order->qty_garment }}</td>
-      <td><strong> </strong> </td>
-      @php
-      $peChecked = $order->shipment === '1' ? '☑' : '☐';
-      $ppChecked = $order->shipment === '2' ? '☑' : '☐';
-  @endphp        
-      <td><strong>SHIPMENT MODE:</strong> {{ $peChecked }} SEA {{ $ppChecked }} AIR</td>
-    </tr>
-  </table>
+<!-- B. Carton Order Form -->
+<p class="subheader">B. CARTON ORDER FORM</p>
+<table class="noborder">
+  <tr>
+    <td><strong>Ref No. :</strong> GM</td>
+    <td></td>
+    <td><strong>Buyer:</strong> {{ $order->buyer }}</td>
+  </tr>
+  <tr>
+    <td><strong>ON STYLE:</strong> {{ $order->style }}</td>
+    <td></td>
+    <td><strong>Gmt. Delivery:</strong> {{ $order->gmt_delivery }}</td>
+  </tr>
+  <tr>
+    <td><strong>QTY Garment:</strong> {{ $order->qty_garment }}</td>
+    <td></td>
+    @php
+      $seaChecked = $order->shipment === '1' ? '☑' : '☐';
+      $airChecked = $order->shipment === '2' ? '☑' : '☐';
+    @endphp
+    <td><strong>SHIPMENT MODE:</strong> {{ $seaChecked }} SEA {{ $airChecked }} AIR</td>
+  </tr>
+</table>
 
-  <table>
-    <tr>
-      <tr>
-        <td colspan="9">
-          <strong>
-            PO NO.: 
-            <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-              {{ $order->po_no ?? ' ' }}
-            </span>
-            &nbsp;&nbsp; KIRIM TGL. : 
-            <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-              {{ $order->arrived_at ?? ' ' }}
-            </span>
-          </strong>
-        </td>
-      </tr>
-      <th> </th>
-      <th>PACKING</th>
-      <th>QUALITY</th>
-      <th>UKURAN (P x L x T)</th>
-      <th>VOLUME</th>
-      <th>ISI</th>
-      <th>BERAT</th>
-      <th>TOTAL PESAN</th>
-      <th>SATUAN</th>
-    </tr>
+<table>
+  <tr>
+    <td colspan="9">
+      <strong>
+        PO NO.: 
+        <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+          {{ $order->po_no ?? ' ' }}
+        </span>
+        &nbsp;&nbsp;
+        KIRIM TGL. : 
+        <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+          {{ $order->arrived_at ?? ' ' }}
+        </span>
+      </strong>
+    </td>
+  </tr>
+  <tr>
+    <th></th>
+    <th>PACKING</th>
+    <th>QUALITY</th>
+    <th>UKURAN (P x L x T)</th>
+    <th>VOLUME</th>
+    <th>ISI</th>
+    <th>BERAT</th>
+    <th>TOTAL PESAN</th>
+    <th>SATUAN</th>
+  </tr>
+
+  @forelse ($order->cartons as $carton)
     <tr>
       <td>PAKAI EXPORT CARTON BIASA</td>
       <td>{{ $carton->packing }}</td>
@@ -544,40 +337,29 @@
       <td>{{ $carton->total_order }}</td>
       <td>BOX</td>
     </tr>
-    <tr>
-      <td>PAKAI EXPORT CARTON BIASA</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>BOX</td>
-      </tr>
-    <tr><td>PAKAI EXPORT CARTON BIASA</td>
-      <td></td>
-      <td></td>        
-      <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
-    <tr><td>PAKAI EXPORT CARTON BIASA</td>
-      <td></td>
-      <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
-    <tr>
-      <td>PAKAI LAYER</td>
-      <td></td>
-      <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
-    <tr>
-      <td>PAKAI LAYER</td>
-      <td></td>
-      <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
-    <tr><td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td><td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</span> </td></tr>
-  </table>
-  
   @empty
+    <tr>
+      <td colspan="9" style="text-align: center;">Tidak ada data carton</td>
+    </tr>
   @endforelse
+
+  <!-- Tambahan baris layer -->
+  <tr>
+    <td>PAKAI LAYER</td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>LBR</td>
+  </tr>
+  <tr>
+    <td>PAKAI LAYER</td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>LBR</td>
+  </tr>
+
+  <!-- Alamat & Keterangan -->
+  <tr>
+    <td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td>
+    <td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</td>
+  </tr>
+</table>
+
   <div class="row">
     <div class="col-6">
       <span class="small">
@@ -585,94 +367,149 @@
         Lembar 1 (Putih); Lembar 2 (Hijau); Kentan: Lembar 3 (Hijau); PL: Lembar 4 (Hijau); DA<br>
         145/R2/MKT-01/F54/14</span>
     </div>
-    <div class="col-6 text-end px-5">
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">Validate</button>
+<!-- Button Validate -->
+<div class="col-6 text-end px-5">
+  <button id="validateButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">Validate</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="{{ route('create-approval') }}" method="POST" enctype="multipart/form-data" id="approvalForm">
+        @csrf
+        <input type="hidden" name="order_id" id="approvalOrderId">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="approvalModalLabel">Validation Approval</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+
+        <div class="modal-body">
+          @if ($session->role == 1)
+          <input type="hidden" name="approval" value="setuju">
+          <div class="mb-3" id="signatureSection">
+            <label for="signature" class="form-label fs-7 text-black">Signature</label>
+            <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png" required>
+          </div>
+          @else
+          <div class="mb-3">
+            <label for="approvalStatus" class="form-label fs-7 text-black">Status</label>
+            <select class="form-select" id="approvalStatus" name="approval" required>
+              <option value="" selected disabled>-- Choose Approval --</option>
+              <option value="setuju">Setuju</option>
+              <option value="tolak">Tolak</option>
+            </select>
+          </div>
+
+          {{-- Notes kalau ditolak --}}
+          <div class="mb-3 d-none" id="notesSection">
+            <label for="notes" class="form-label fs-7 text-black">Notes</label>
+            <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+          </div>
+
+          {{-- Signature kalau disetujui --}}
+          <div class="mb-3 d-none" id="signatureSection">
+            <label for="signature" class="form-label fs-7 text-black">Signature</label>
+            <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png">
+          </div>
+          @endif
+        </div>
+
+        <div class="modal-footer">
+          <input type="hidden" name="order_id" value="{{ $order->id }}">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
     </div>
   </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <form action="{{ route('create-approval') }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          <input type="hidden" name="order_id" id="approvalOrderId">
-
-          <div class="modal-header">
-            <h5 class="modal-title" id="approvalModalLabel">Validation Approval</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-          </div>
-
-          <div class="modal-body">
-            @if ($session->role == 1)
-            <input type="hidden" name="approval" value="setuju">
-            <div class="mb-3" id="signatureSection">
-              <label for="signature" class="form-label fs-7 text-black">Signature</label>
-              <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png" required>
-            </div>
-            @else
-            <div class="mb-3">
-              <label for="approvalStatus" class="form-label fs-7 text-black">Status</label>
-              <select class="form-select" id="approvalStatus" name="approval" required>
-                <option value="" selected disabled>-- Choose Approval --</option>
-                <option value="setuju">Setuju</option>
-                <option value="tolak">Tolak</option>
-              </select>
-            </div>
-
-            {{-- Notes kalau ditolak --}}
-            <div class="mb-3 d-none" id="notesSection">
-              <label for="notes" class="form-label fs-7 text-black">Notes</label>
-              <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
-            </div>
-
-            {{-- Signature kalau disetujui --}}
-            <div class="mb-3 d-none" id="signatureSection">
-              <label for="signature" class="form-label fs-7 text-black">Signature</label>
-              <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png">
-            </div>
-            @endif
-          </div>
+</div>
 
 
-
-          <div class="modal-footer">
-            <input type="hidden" name="order_id" value="{{ $order->id }}">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
   </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const select = document.getElementById('approvalStatus');
-      if (select) {
-          const notesSection = document.getElementById('notesSection');
-          const signatureSection = document.getElementById('signatureSection');
-  
-          select.addEventListener('change', function () {
-              if (this.value === 'tolak') {
-                  notesSection.classList.remove('d-none');
-                  signatureSection.classList.add('d-none');
-              } else if (this.value === 'setuju') {
-                  signatureSection.classList.remove('d-none');
-                  notesSection.classList.add('d-none');
-              } else {
-                  notesSection.classList.add('d-none');
-                  signatureSection.classList.add('d-none');
-              }
-          });
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const validateButton = document.getElementById('validateButton');
+    const approvalForm = document.getElementById('approvalForm');
+    const signatureInput = document.getElementById('signature');
+    const notesSection = document.getElementById('notesSection');
+    const signatureSection = document.getElementById('signatureSection');
+    const select = document.getElementById('approvalStatus');
+
+    // Menghilangkan tombol "Validate" setelah form disubmit
+    approvalForm.addEventListener('submit', function () {
+      validateButton.style.display = 'none'; // Menyembunyikan tombol setelah form disubmit
+    });
+
+    // Menyembunyikan/menampilkan bagian Signature dan Notes tergantung pada status approval
+    select.addEventListener('change', function () {
+      if (this.value === 'tolak') {
+        notesSection.classList.remove('d-none');
+        signatureSection.classList.add('d-none');
+      } else if (this.value === 'setuju') {
+        signatureSection.classList.remove('d-none');
+        notesSection.classList.add('d-none');
+      } else {
+        notesSection.classList.add('d-none');
+        signatureSection.classList.add('d-none');
       }
+    });
   });
-  </script>
+</script>
+
+
+<table class="noborder sign-row">
+  <tr>
+    <td>Follow Up</td>
+    <td>Marketing</td>
+    <td>Diperiksa Oleh</td>
+    <td>Purchasing</td>
+    <td>Dibuat Oleh</td>
+  </tr>
+  <tr>
+    <td>
+      @if(isset($approvals['follow_up']) && $approvals['follow_up']->signature)
+        <img src="{{ asset('storage/' . $approvals['follow_up']->signature) }}" width="100">
+      @else
+        (...................)
+      @endif
+    </td>
+    <td>
+      @if(isset($approvals['marketing']) && $approvals['marketing']->signature)
+        <img src="{{ asset('storage/' . $approvals['marketing']->signature) }}" width="100">
+      @else
+        (...................)
+      @endif
+    </td>
+    <td>
+      @if(isset($approvals['checker']) && $approvals['checker']->signature)
+        <img src="{{ asset('storage/' . $approvals['checker']->signature) }}" width="100">
+      @else
+        (...................)
+      @endif
+    </td>
+    <td>
+      @if(isset($approvals['purchasing']) && $approvals['purchasing']->signature)
+        <img src="{{ asset('storage/' . $approvals['purchasing']->signature) }}" width="100">
+      @else
+        (...................)
+      @endif
+    </td>
+    <td>
+      @if(isset($approvals['creator']) && $approvals['creator']->signature)
+        <img src="{{ asset('storage/' . $approvals['creator']->signature) }}" width="100">
+      @else
+        (...................)
+      @endif
+    </td>
+  </tr>
+</table>
 
 
 </body>

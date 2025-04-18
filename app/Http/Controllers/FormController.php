@@ -45,19 +45,29 @@ class FormController extends Controller
     }
 
     public function printData($id)
-    {
-        $session = session('user');
-        $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
+{
+    $session = session('user');
+    $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
 
-        $data = [
-            'session' => $session,
-            'order' => $order,
-            'order' => $order,
-            'logo' => asset('/assets/images/logo-polybag.png'),
-        ];
-
-        return view('cetak', $data);
+    if ($order->polybags->isNotEmpty()) {
+        $image = $order->polybags->first()->image;
+        $imagePath = asset('storage/' . $image);
+    } else {
+        $imagePath = asset('storage/polybag_images/default-image.jpg');
     }
+
+    $data = [
+        'session' => $session,
+        'order' => $order,
+        'logo' => asset('/assets/images/logo-polybag.png'),
+        'image' => $imagePath,
+    ];
+
+    return view('cetak', $data);
+}
+
+    
+    
 
     public function pdfData($id)
     {
@@ -67,8 +77,12 @@ class FormController extends Controller
         $data = [
             'session' => $session,
             'order' => $order,
-            'logo' => asset('/assets/images/logo-polybag.png'),
+            'logo' => public_path('assets/images/logo-polybag.png'),
+            // Memeriksa jika ada polybag dan mengambil gambar dari elemen pertama
+            'image' => $order->polybags->isNotEmpty() ? public_path('storage/' . $order->polybags->first()->image) : null,
         ];
+        
+        
         
         $pdf = Pdf::loadView('cetak', $data);
         return $pdf->download('order-'.$id.'.pdf');        
