@@ -79,44 +79,69 @@
                           <div class="vstack gap-3">
                             @foreach ($validations as $title => $info)
                             @php
-                            $borderColor = $info['is_rejected'] ? 'danger' : ($order->status >= $info['status'] ?
-                            'success' : 'secondary');
-                            $iconClass = $info['is_rejected'] ? 'fa-circle-xmark text-danger' : ($order->status >=
-                            $info['status'] ? 'fa-circle-check text-success' : 'fa-hourglass-start text-secondary');
-                            @endphp
+                            $isApproved = $order->status == $info['status'] || $order->status > $info['status'] ||
+                            ($order->status < 0 && abs($order->status) > $info['status']);
 
-                            <div
-                              class="d-flex align-items-start bg-white p-3 rounded-3 shadow-sm border-start border-4 border-{{ $borderColor }}">
-                              <div class="me-3 pt-1">
-                                <i class="fa-solid {{ $iconClass }} fs-4"></i>
-                              </div>
-                              <div>
-                                <h6 class="mb-1 fw-semibold">{{ $title }}</h6>
-                                <div class="text-black small">
-                                  @if ($info['is_rejected'])
-                                  Ditolak
-                                  @elseif ($order->status < $info['status']) Menunggu: <strong>{{ $info['by']
-                                    }}</strong><br>
+                              $borderColor = $info['is_rejected'] ? 'danger' : ($isApproved ? 'success' : 'secondary');
+                              $iconClass = $info['is_rejected'] ? 'fa-circle-xmark text-danger' :
+                              ($isApproved ? 'fa-circle-check text-success' : 'fa-hourglass-start text-secondary');
+                              @endphp
+
+                              <div
+                                class="d-flex align-items-start bg-white p-3 rounded-3 shadow-sm border-start border-4 border-{{ $borderColor }}">
+                                <div class="me-3 pt-1">
+                                  <i class="fa-solid {{ $iconClass }} fs-4" @if ($info['is_rejected'] &&
+                                    $order->rejected_notes)
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="{{ $order->rejected_notes }}"
+                                    @endif>
+                                  </i>
+                                </div>
+                                <div>
+                                  <h6 class="mb-1 fw-semibold">{{ $title }}</h6>
+                                  <div class="text-black small">
+                                    @if ($info['is_rejected'])
+                                    Ditolak oleh: <strong>{{ $order->approval->approved_by }}</strong><br>
+                                    @if ($order->approval->notes)
+                                    <span class="fst-italic text-danger fs-3 d-inline-block" data-bs-toggle="tooltip"
+                                      data-bs-placement="bottom" title="{{ $order->approval->notes }}">
+                                      <i class="fa-solid fa-info-circle me-1"></i>Notes
+                                    </span><br>
+                                    @endif
+                                    @elseif (!$isApproved)
+                                    Menunggu: <strong>{{ $info['by'] }}</strong><br>
                                     @elseif ($info['status'] == 1)
                                     Dibuat oleh: <strong>{{ $info['by'] }}</strong><br>
                                     @else
                                     Disetujui oleh: <strong>{{ $info['by'] }}</strong><br>
                                     @endif
 
-                                    @if (($order->status >= $info['status'] || $info['is_rejected']) && $info['date'])
+                                    @if (($isApproved || $info['is_rejected']) && $info['date'])
                                     <span class="text-black">{{ \Carbon\Carbon::parse($info['date'])->format('d M Y')
                                       }}</span>
+                                    @elseif ($info['is_rejected'] && $order->rejected_date)
+                                    <span class="text-black">{{ \Carbon\Carbon::parse($order->rejected_date)->format('d
+                                      M Y') }}</span>
                                     @endif
+                                  </div>
                                 </div>
-
                               </div>
-                            </div>
-                            @endforeach
+                              @endforeach
                           </div>
                         </div>
 
-
                         <div class="modal-footer bg-white border-0 rounded-bottom-4">
+                          @php
+                          $statusMap = in_array($order->status, [-2, -3]);
+                          $md = $session->role == 1;
+                          @endphp
+                          @if ($md && $statusMap)
+                          <a href="{{ route('edit-form', ['id' => $order->id]) }}"
+                            class="btn btn-warning rounded-pill px-4">
+                            <i class="fa-solid fa-file-pen me-1"></i> UPDATE DATA
+                          </a>
+                          @endif
                           <button type="button" class="btn btn-outline-dark rounded-pill px-4" data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark me-1"></i> TUTUP
                           </button>
@@ -148,7 +173,7 @@
                     $orderStatus = [
                     -2 => 'Rejected by Follow Up',
                     -3 => 'Rejected by Purchasing',
-                    1 => 'Order created',
+                    1 => $order->merchandiser ? 'Validate by Merchandiser' : 'Order created',
                     2 => 'Approved by Follow Up',
                     3 => 'Approved by Purchasing',
                     ];
@@ -170,7 +195,7 @@
                     <td>
                       <a href="{{ route('cetak', ['po_no' => $order->po_no]) }}" class="badge text-bg-primary"><i
                           class="fa-solid fa-eye"></i></a>
-                      @if($session->role == 1)
+                      @if($session->role == 1 && is_null($order->merchandiser))
                       <a href="{{ route('edit-form',['id' => $order->id]) }}" class="badge text-bg-warning"><i
                           class="fa-solid fa-file-pen"></i></a>
                       @endif
@@ -189,6 +214,29 @@
       </div>
     </div>
     <x-js></x-js>
+    @push('scripts')
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+    const initTooltips = () => {
+      let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    };
+
+    initTooltips();
+
+    document.querySelectorAll('.modal').forEach(function (modal) {
+      modal.addEventListener('shown.bs.modal', function () {
+        initTooltips();
+      });
+    });
+  });
+    </script>
+    @endpush
+
+
+
 </body>
 
 </html>

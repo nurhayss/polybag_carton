@@ -18,16 +18,22 @@ class MainController extends Controller
     public function index()
     {
         $session = session('user');
+
         $orders = Order::with('approval.user')->get();
-       
 
+        foreach ($orders as $order) {
+            $rejectedLog = $order->approval->where('status', '<', 0)->first();
+            ($order->approval->notes = $rejectedLog?->notes);
+            $order->approval->approved_by = $rejectedLog?->user?->name ?? null;
+            $order->approval->created_at = $rejectedLog?->created_at;
+        }
 
-        $data = [
+        return view('index', [
             'session' => $session,
             'orders' => $orders,
-        ];
-        return view('index', $data);
+        ]);
     }
+
 
     public function newForm()
     {

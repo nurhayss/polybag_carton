@@ -43,6 +43,38 @@ class FormController extends Controller
         return view('data', $data);
     }
 
+    public function editForm($id)
+    {
+        $session = session('user');
+
+        $order = Order::find($id);
+
+        $data = [
+            'session' => $session,
+            'order' => $order,
+        ];
+
+        return view('edit-form', $data);
+    }
+
+
+    public function formUpdate(Request $request)
+    {
+        $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
+
+
+        $formService = new FormService();
+        $validatedData = $formService->validateOrder($request->all());
+
+        // Update order
+        $updated = $formService->updateOrder($order, $validatedData, $session);
+
+        return $updated
+            ? redirect()->route('index')->with('success', 'Form successfully updated!')
+            : redirect()->back()->withInput()->with('error', 'Form update failed!');
+    }
+
     public function printData($id)
     {
         $session = session('user');
@@ -201,38 +233,5 @@ class FormController extends Controller
         ];
 
         return view('edit-carton', $data);
-    }
-
-
-    public function editForm($id)
-    {
-        $session = session('user');
-
-        $order = Order::find($id);
-
-        $data = [
-            'session' => $session,
-            'order' => $order,
-        ];
-
-        return view('edit-form', $data);
-    }
-
-
-    public function formUpdate(Request $request)
-    {
-        $session = session('user');
-        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
-
-
-        $formService = new FormService();
-        $validatedData = $formService->validateOrder($request->all());
-
-        // Update order
-        $updated = $formService->updateOrder($order, $validatedData, $session);
-
-        return $updated
-            ? redirect()->route('index')->with('success', 'Form successfully updated!')
-            : redirect()->back()->withInput()->with('error', 'Form update failed!');
     }
 }
