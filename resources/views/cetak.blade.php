@@ -128,6 +128,134 @@
     text-align: center;
   }
 </style>
+@if(isset($isPdf) && $isPdf)
+  <style>
+    /* Styling khusus PDF */
+    .btn, .modal, .no-print {
+      display: none !important;
+    }
+
+      body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 20px;
+  }
+
+  .header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .subheader {
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+  }
+
+  th,
+  td {
+    border: 1px solid #000;
+    padding: 2px;
+    vertical-align: top;
+  }
+
+  .noborder td,
+  .noborder th {
+    border: none;
+  }
+
+  .check {
+    font-family: Arial, sans-serif;
+  }
+
+  .sketsa {
+    height: 120px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  .sign-row td {
+    height: 60px;
+    text-align: center;
+  }
+
+  .note {
+    border: 1px solid #000;
+    height: 80px;
+    text-align: left;
+    line-height: 1.4;
+    font-size: 11px;
+  }
+
+  .note-box {
+    width: 60%;
+  }
+
+  .small {
+    font-size: 11px;
+    margin-top: 0px;
+  }
+
+  hr {
+    border: 1px solid black;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+
+  .sketsa-column {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+  }
+
+  .sketsa-box {
+    border: 1px;
+    padding: 5px;
+  }
+
+  .table-column {
+    display: flex;
+    flex-direction: column;
+    width: 68%;
+  }
+
+  .form-table {
+    border: 1px;
+    padding: 2px;
+  }
+
+  .form-table table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000;
+  }
+
+  .form-table table th,
+  .form-table table td {
+    border: 1px solid #000;
+    padding: 3px;
+    text-align: center;
+  }
+  </style>
+@endif
+
 
 <body>
 
@@ -167,29 +295,29 @@
     <tr>
       @php
       $packingOptions = [
-      1 => 'Base',
-      2 => 'Hanger Lubang 1',
-      3 => 'Hanger Lubang 2',
-      4 => 'Lidah',
-      5 => 'Gusset',
-      6 => 'Hanger',
+          1 => 'Base',
+          2 => 'Hanger Lubang 1',
+          3 => 'Hanger Lubang 2',
+          4 => 'Lidah',
+          5 => 'Gusset',
+          6 => 'Hanger',
       ];
-
+  
       $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
-      @endphp
+  @endphp
+  
+  <td colspan="7" class="check">
+      @foreach($packingOptions as $value => $label)
+          <label style="margin-right: 10px;">
+              <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
+              {{ $label }}
+          </label>
+      @endforeach
+  </td>
+  
+  
 
-      <td colspan="7" class="check">
-        @foreach($packingOptions as $value => $label)
-        <label style="margin-right: 10px;">
-          <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
-          {{ $label }}
-        </label>
-        @endforeach
-      </td>
-
-
-
-
+  
 
     </tr>
   </table>
@@ -201,13 +329,18 @@
   <div class="flex">
     {{-- BAGIAN GAMBAR --}}
     <div class="sketsa-column">
-      @foreach ($polybags->take(3) as $polybag) {{-- Batas 3 gambar --}}
-        <div class="sketsa-box">
-          <div class="sketsa">
-            <img style="width: 200px;" src="{{ $image }}" alt="Polybag Image">
-          </div>
-        </div>
-      @endforeach
+    @foreach ($order->polybags->take(3) as $polybag)
+  <div class="sketsa-box">
+    <div class="sketsa">
+      @if(isset($isPdf) && $isPdf)
+        <img style="width: 200px;" src="{{ public_path('storage/' . $polybag->image) }}" alt="Polybag Image">
+      @else
+        <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}" alt="Polybag Image">
+      @endif
+    </div>
+  </div>
+@endforeach
+
 
       <div class="sketsa-box">
         <div class="sketsa">
@@ -327,7 +460,7 @@
 
   @forelse ($order->cartons as $carton)
     <tr>
-      <td>PAKAI EXPORT CARTON BIASA</td>
+      <td>{{ $carton->packingType->name}}</td>
       <td>{{ $carton->packing }}</td>
       <td>{{ $carton->quality }}</td>
       <td>{{ $carton->length }} x {{ $carton->width }} x {{ $carton->height }}</td>
@@ -335,6 +468,8 @@
       <td>{{ $carton->qty }}</td>
       <td>{{ $carton->weight }}</td>
       <td>{{ $carton->total_order }}</td>
+      <td>{{ $carton->packingType->satuan}}</td>
+    </tr>
       <td>BOX</td>
     </tr>
   @empty
@@ -342,16 +477,6 @@
       <td colspan="9" style="text-align: center;">Tidak ada data carton</td>
     </tr>
   @endforelse
-
-  <!-- Tambahan baris layer -->
-  <tr>
-    <td>PAKAI LAYER</td>
-    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>LBR</td>
-  </tr>
-  <tr>
-    <td>PAKAI LAYER</td>
-    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>LBR</td>
-  </tr>
 
   <!-- Alamat & Keterangan -->
   <tr>
@@ -367,6 +492,8 @@
         Lembar 1 (Putih); Lembar 2 (Hijau); Kentan: Lembar 3 (Hijau); PL: Lembar 4 (Hijau); DA<br>
         145/R2/MKT-01/F54/14</span>
     </div>
+<!-- Button Validate -->
+@if (
 
     @php
     @endphp
@@ -441,6 +568,7 @@
 
 
 
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
   </script>
@@ -476,52 +604,37 @@
 </script>
 
 
+@php
+    $signatures = [
+        1 => 'MD',
+        2 => 'Follow Up',
+        3 => 'Purchasing',
+    ];
+@endphp
+
 <table class="noborder sign-row">
   <tr>
-    <td>Follow Up</td>
-    <td>Marketing</td>
-    <td>Diperiksa Oleh</td>
-    <td>Purchasing</td>
-    <td>Dibuat Oleh</td>
+    @foreach ($signatures as $label)
+      <td>{{ $label }}</td>
+    @endforeach
   </tr>
   <tr>
-    <td>
-      @if(isset($approvals['follow_up']) && $approvals['follow_up']->signature)
-        <img src="{{ asset('storage/' . $approvals['follow_up']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['marketing']) && $approvals['marketing']->signature)
-        <img src="{{ asset('storage/' . $approvals['marketing']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['checker']) && $approvals['checker']->signature)
-        <img src="{{ asset('storage/' . $approvals['checker']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['purchasing']) && $approvals['purchasing']->signature)
-        <img src="{{ asset('storage/' . $approvals['purchasing']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['creator']) && $approvals['creator']->signature)
-        <img src="{{ asset('storage/' . $approvals['creator']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
+    @foreach ($signatures as $status => $label)
+      @php
+          $log = $order->approval->firstWhere('status', $status);
+      @endphp
+      <td>
+        @if($log && $log->signature)
+          <img src="{{ asset('storage/' . $log->signature) }}" width="100">
+        @else
+          (...................)
+        @endif
+      </td>
+    @endforeach
   </tr>
 </table>
+
+
 
 
 </body>

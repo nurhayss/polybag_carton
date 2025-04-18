@@ -6,6 +6,7 @@ use App\Models\Carton;
 use App\Models\Order;
 use App\Models\PackingTypeCarton;
 use App\Models\Polybag;
+use App\Models\ApprovalLogs;
 use App\Services\FormService;
 use App\View\Components\Form;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -47,59 +48,29 @@ class FormController extends Controller
         return view('data', $data);
     }
 
-    public function editForm($id)
+    public function printData($id)
     {
         $session = session('user');
-
-        $order = Order::find($id);
-
+    
+        // Load order with related data
+        $order = Order::with(['polybags', 'cartons', 'approval'])->where('po_no', $id)->firstOrFail();
+    
+        // Polybag image handling
+        $imagePath = $order->polybags->isNotEmpty()
+            ? asset('storage/' . $order->polybags->first()->image)
+            : asset('storage/polybag_images/default-image.jpg');
+    
+        // Data for the view
         $data = [
             'session' => $session,
             'order' => $order,
+            'logo' => asset('/assets/images/logo-polybag.png'),
+            'image' => $imagePath,
         ];
-
-        return view('edit-form', $data);
+    
+        return view('cetak', $data);
     }
-
-
-    public function formUpdate(Request $request)
-    {
-        $session = session('user');
-        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
-
-
-        $formService = new FormService();
-        $validatedData = $formService->validateOrder($request->all());
-
-        // Update order
-        $updated = $formService->updateOrder($order, $validatedData, $session);
-
-        return $updated
-            ? redirect()->route('index')->with('success', 'Form successfully updated!')
-            : redirect()->back()->withInput()->with('error', 'Form update failed!');
-    }
-
-    public function printData($id)
-{
-    $session = session('user');
-    $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
-
-    if ($order->polybags->isNotEmpty()) {
-        $image = $order->polybags->first()->image;
-        $imagePath = asset('storage/' . $image);
-    } else {
-        $imagePath = asset('storage/polybag_images/default-image.jpg');
-    }
-
-    $data = [
-        'session' => $session,
-        'order' => $order,
-        'logo' => asset('/assets/images/logo-polybag.png'),
-        'image' => $imagePath,
-    ];
-
-    return view('cetak', $data);
-}
+    
 
     
     
@@ -113,14 +84,20 @@ class FormController extends Controller
             'session' => $session,
             'order' => $order,
             'logo' => public_path('assets/images/logo-polybag.png'),
-            // Memeriksa jika ada polybag dan mengambil gambar dari elemen pertama
             'image' => $order->polybags->isNotEmpty() ? public_path('storage/' . $order->polybags->first()->image) : null,
+            'isPdf' => true // ini kuncinya
         ];
         
         
+        $pdf = Pdf::loadView('cetak', $data)->setPaper('Legal', 'portrait');
+        return $pdf->download('PO_Number - ' . $id . '.pdf');
+
         
+>>>>>>>>> Temporary merge branch 2
         $pdf = Pdf::loadView('cetak', $data);
         return $pdf->download('PO_Number - ' . $id . '.pdf');
+
+        
     }
 
     public function dataCreatePolybag(Request $request)
