@@ -1,4 +1,4 @@
-@props(['order','polybag','carton'])
+@props(['order','polybag','carton','packing_type'])
 
 <form action="{{ route('carton-update') }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -75,6 +75,18 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Total Order</label>
                         <input type="number" class="form-control" name="total_order" value="{{ $carton->total_order }}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Total Order</label>
+                        <select name="packing_type" class="form-select" id="">
+                            <option disabled>Pilih Packing Type</option>
+                            <option selected value="{{ $carton->packingType->id }}">{{ $carton->packingType->name }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>

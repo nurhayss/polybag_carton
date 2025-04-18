@@ -168,29 +168,29 @@
     <tr>
       @php
       $packingOptions = [
-          1 => 'Base',
-          2 => 'Hanger Lubang 1',
-          3 => 'Hanger Lubang 2',
-          4 => 'Lidah',
-          5 => 'Gusset',
-          6 => 'Hanger',
+      1 => 'Base',
+      2 => 'Hanger Lubang 1',
+      3 => 'Hanger Lubang 2',
+      4 => 'Lidah',
+      5 => 'Gusset',
+      6 => 'Hanger',
       ];
-  
-      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
-  @endphp
-  
-  <td colspan="7" class="check">
-      @foreach($packingOptions as $value => $label)
-          <label style="margin-right: 10px;">
-              <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
-              {{ $label }}
-          </label>
-      @endforeach
-  </td>
-  
-  
 
-  
+      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
+      @endphp
+
+      <td colspan="7" class="check">
+        @foreach($packingOptions as $value => $label)
+        <label style="margin-right: 10px;">
+          <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
+          {{ $label }}
+        </label>
+        @endforeach
+      </td>
+
+
+
+
 
     </tr>
   </table>
@@ -211,277 +211,278 @@
         <div class="sketsa">
           <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}">
         </div>
-    </div>
-    <div class="sketsa-box">
-      <div class="sketsa">
-        <p>Catt : DI UKURAN POLYBAG, LINGKARI PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L) PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L)</p>
       </div>
-    </div>
+      <div class="sketsa-box">
+        <div class="sketsa">
+          <p>Catt : DI UKURAN POLYBAG, LINGKARI PADA BUKAAN ADA DI PANJANG (P) ATAU LEBAR (L) PADA BUKAAN ADA DI PANJANG
+            (P) ATAU LEBAR (L)</p>
+        </div>
+      </div>
 
+    </div>
+    <div class="table-column">
+      <div class="form-table">
+        <div class="flex-container">
+          <span style="float:left;">Pack: {{ $polybag->pack }}</span>
+        </div>
+        <table>
+          <tr>
+            <th>SIZE</th>
+            <th>{{ $polybag->size }} </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          <tr>
+            <td>UKURAN (P x L)</td>
+            <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY ORDER</td>
+            <td>{{ $polybag->qty_order }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ISI / POLYBAG</td>
+            <td>{{ $polybag->isi }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>KEBUTUHAN</td>
+            <td>>{{ $polybag->kebutuhan }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY BELI</td>
+            <td>{{ $polybag->qty_beli }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="form-table">
+        <div class="flex-container">
+          <span style="float:left;">Pack: {{ $polybag->pack }}</span>
+        </div>
+        <table>
+          <tr>
+            <th>SIZE</th>
+            <th>{{ $polybag->size }} </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          <tr>
+            <td>UKURAN (P x L)</td>
+            <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY ORDER</td>
+            <td>{{ $polybag->qty_order }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ISI / POLYBAG</td>
+            <td>{{ $polybag->isi }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>KEBUTUHAN</td>
+            <td>>{{ $polybag->kebutuhan }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY BELI</td>
+            <td>{{ $polybag->qty_beli }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="form-table">
+        <div class="flex-container">
+          <span style="float:left;">Pack: {{ $polybag->pack }}</span>
+        </div>
+        <table>
+          <tr>
+            <th>SIZE</th>
+            <th>{{ $polybag->size }} </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+          </tr>
+          <tr>
+            <td>UKURAN (P x L)</td>
+            <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY ORDER</td>
+            <td>{{ $polybag->qty_order }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ISI / POLYBAG</td>
+            <td>{{ $polybag->isi }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>KEBUTUHAN</td>
+            <td>>{{ $polybag->kebutuhan }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>QTY BELI</td>
+            <td>{{ $polybag->qty_beli }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="table-column">  
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    <div class="form-table">
-      <div class="flex-container">
-        <span style="float:left;">Pack: {{ $polybag->pack }}</span>
-      </div>
-      <table>
-        <tr>
-          <th>SIZE</th>
-          <th>{{ $polybag->size }} </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-          <th> </th>
-        </tr>
-        <tr>
-          <td>UKURAN (P x L)</td>
-          <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY ORDER</td>
-          <td>{{ $polybag->qty_order }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ISI / POLYBAG</td>
-          <td>{{ $polybag->isi }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>KEBUTUHAN</td>
-          <td>>{{ $polybag->kebutuhan }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>QTY BELI</td>
-          <td>{{ $polybag->qty_beli }}</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-    </div>
-    </div>
-  </div>  
-</div>
-@empty
-@endforelse
-<p></p>
-<!-- Notes -->
-<div class="note">
-  <div class="note-box">
-    @forelse ($order->cartons as $carton)
-    <strong>Notes:</strong><br>
-    <ul style="margin-top: 5px; padding-left: 15px;">
-      @php
-      $peChecked = $order->plastic_quality === '1' ? '☑' : '☐';
-      $ppChecked = $order->plastic_quality === '2' ? '☑' : '☐';
-  @endphp
-  
-  <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
+  </div>
+  @empty
+  @endforelse
+  <p></p>
+  <!-- Notes -->
+  <div class="note">
+    <div class="note-box">
+      @forelse ($order->cartons as $carton)
+      <strong>Notes:</strong><br>
+      <ul style="margin-top: 5px; padding-left: 15px;">
+        @php
+        $peChecked = $order->plastic_quality === '1' ? '☑' : '☐';
+        $ppChecked = $order->plastic_quality === '2' ? '☑' : '☐';
+        @endphp
+
+        <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
         <li><strong>KETEBALAN:</strong> {{$order->thickness}} </li>
-      <li><strong>PRINT WARNING:</strong> {{$order->print_warning}} </li>
-    </ul>
+        <li><strong>PRINT WARNING:</strong> {{$order->print_warning}} </li>
+      </ul>
+    </div>
   </div>
-</div>
-<p></p>
-<hr>
+  <p></p>
+  <hr>
 
   <!-- B. Carton Order Form -->
   <p class="subheader">B. CARTON ORDER FORM</p>
@@ -502,36 +503,36 @@
       @php
       $peChecked = $order->shipment === '1' ? '☑' : '☐';
       $ppChecked = $order->shipment === '2' ? '☑' : '☐';
-  @endphp        
+      @endphp
       <td><strong>SHIPMENT MODE:</strong> {{ $peChecked }} SEA {{ $ppChecked }} AIR</td>
     </tr>
   </table>
 
   <table>
     <tr>
-      <tr>
-        <td colspan="9">
-          <strong>
-            PO NO.: 
-            <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-              {{ $order->po_no ?? ' ' }}
-            </span>
-            &nbsp;&nbsp; KIRIM TGL. : 
-            <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-              {{ $order->arrived_at ?? ' ' }}
-            </span>
-          </strong>
-        </td>
-      </tr>
-      <th> </th>
-      <th>PACKING</th>
-      <th>QUALITY</th>
-      <th>UKURAN (P x L x T)</th>
-      <th>VOLUME</th>
-      <th>ISI</th>
-      <th>BERAT</th>
-      <th>TOTAL PESAN</th>
-      <th>SATUAN</th>
+    <tr>
+      <td colspan="9">
+        <strong>
+          PO NO.:
+          <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+            {{ $order->po_no ?? ' ' }}
+          </span>
+          &nbsp;&nbsp; KIRIM TGL. :
+          <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+            {{ $order->arrived_at ?? ' ' }}
+          </span>
+        </strong>
+      </td>
+    </tr>
+    <th> </th>
+    <th>PACKING</th>
+    <th>QUALITY</th>
+    <th>UKURAN (P x L x T)</th>
+    <th>VOLUME</th>
+    <th>ISI</th>
+    <th>BERAT</th>
+    <th>TOTAL PESAN</th>
+    <th>SATUAN</th>
     </tr>
     <tr>
       <td>PAKAI EXPORT CARTON BIASA</td>
@@ -554,28 +555,57 @@
       <td></td>
       <td></td>
       <td>BOX</td>
-      </tr>
-    <tr><td>PAKAI EXPORT CARTON BIASA</td>
-      <td></td>
-      <td></td>        
-      <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
-    <tr><td>PAKAI EXPORT CARTON BIASA</td>
+    </tr>
+    <tr>
+      <td>PAKAI EXPORT CARTON BIASA</td>
       <td></td>
       <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>BOX</td></tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>BOX</td>
+    </tr>
+    <tr>
+      <td>PAKAI EXPORT CARTON BIASA</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>BOX</td>
+    </tr>
     <tr>
       <td>PAKAI LAYER</td>
       <td></td>
       <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>LBR</td>
+    </tr>
     <tr>
       <td>PAKAI LAYER</td>
       <td></td>
       <td></td>
-      <td></td><td></td><td></td><td></td><td></td><td>LBR</td></tr>
-    <tr><td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td><td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</span> </td></tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>LBR</td>
+    </tr>
+    <tr>
+      <td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td>
+      <td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</span> </td>
+    </tr>
   </table>
-  
+
   @empty
   @endforelse
   <div class="row">
@@ -645,8 +675,6 @@
             </div>
             @endif
           </div>
-
-
 
           <div class="modal-footer">
             <input type="hidden" name="order_id" value="{{ $order->id }}">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carton;
 use App\Models\Order;
+use App\Models\PackingTypeCarton;
 use App\Models\Polybag;
 use App\Services\FormService;
 use App\View\Components\Form;
@@ -34,11 +35,13 @@ class FormController extends Controller
     public function dataGet($id)
     {
         $session = session('user');
+        $packing_type = PackingTypeCarton::all();
         $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
 
         $data = [
             'session' => $session,
             'order' => $order,
+            'packing_type' => $packing_type,
         ];
 
         return view('data', $data);
@@ -237,6 +240,7 @@ class FormController extends Controller
     {
         $session = session('user');
 
+        $packing_type = PackingTypeCarton::all();
         $order = Order::with(['polybags', 'cartons'])->where('po_no', $po_no)->first();
         $polybag = Polybag::where('id', $id)->first();
         $carton = Carton::where('order_id', $order->id)->first();
@@ -246,6 +250,7 @@ class FormController extends Controller
             'order' => $order,
             'polybag' => $polybag,
             'carton' => $carton,
+            'packing_type' => $packing_type,
         ];
 
         return view('edit-carton', $data);

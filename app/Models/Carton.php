@@ -23,7 +23,13 @@ class Carton extends Model
         'qty',
         'weight',
         'total_order',
+        'packing_type',
     ];
+
+    public function packingType(): BelongsTo
+    {
+        return $this->belongsTo(PackingTypeCarton::class, 'packing_type', 'id');
+    }
 
     protected function totalOrderFormatted(): Attribute
     {

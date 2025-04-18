@@ -1,4 +1,4 @@
-@props(['order'])
+@props(['order','packing_type'])
 
 <form action="{{ route('polybag-create') }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -172,6 +172,19 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Total Order</label>
                         <input type="number" class="form-control" name="total_order">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Total Order</label>
+                        <select name="packing_type" class="form-select" id="">
+                            <option selected disabled>Pilih Packing Type</option>
+                            @foreach ($packing_type as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>

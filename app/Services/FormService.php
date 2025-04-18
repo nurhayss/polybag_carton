@@ -127,7 +127,9 @@ class FormService
                 'qty'         => $validatedData['qty'],
                 'weight'      => $validatedData['weight'],
                 'total_order' => $validatedData['total_order'],
+                'packing_type' => $validatedData['packing_type'],
             ]);
+
 
             DB::commit();
             return $carton->order_id;
@@ -181,6 +183,7 @@ class FormService
             'qty'         => $validated['qty'],
             'weight'      => $validated['weight'],
             'total_order' => $validated['total_order'],
+            'packing_type' => $validated['packing_type'],
         ])->save();
 
         return true;
@@ -268,6 +271,7 @@ class FormService
             'qty'            => 'required|integer',
             'weight'         => 'required|string',
             'total_order'    => 'required|integer',
+            'packing_type'    => 'required|integer',
         ]);
 
         if ($validator->fails()) {
