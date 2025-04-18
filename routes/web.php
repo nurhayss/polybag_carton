@@ -46,6 +46,8 @@ Route::post('polybag-update', [FormController::class, 'polybagUpdate'])->name('p
 Route::post('polybag-delete/{id}', [FormController::class, 'polybagDelete'])->name('polybag-delete');
 Route::post('carton-delete/{id}', [FormController::class, 'cartonDelete'])->name('carton-delete');
 Route::get('polybag/{po_no}/print', [FormController::class, 'printData'])->name('cetak');
+Route::get('polybag/print/{po_no}', [FormController::class, 'pdfData'])->name('download');
+
 
 
 //Account Features

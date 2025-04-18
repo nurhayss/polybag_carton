@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Polybag;
 use App\Services\FormService;
 use App\View\Components\Form;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -88,6 +89,21 @@ class FormController extends Controller
         ];
 
         return view('cetak', $data);
+    }
+
+    public function pdfData($id)
+    {
+        $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
+
+        $data = [
+            'session' => $session,
+            'order' => $order,
+            'logo' => asset('/assets/images/logo-polybag.png'),
+        ];
+        
+        $pdf = Pdf::loadView('cetak', $data);
+        return $pdf->download('order-'.$id.'.pdf');        
     }
 
     public function dataCreatePolybag(Request $request)
