@@ -26,6 +26,8 @@ class Order extends Model
         'plastic_quality',
         'thickness',
         'print_warning',
+        'merchandiser',
+        'merchandiser_date',
         'follow_up',
         'follow_up_date',
         'marketing',
@@ -50,7 +52,7 @@ class Order extends Model
     }
     public function approval(): HasMany
     {
-        return $this->hasMany(Carton::class, 'id', 'order_id');
+        return $this->hasMany(ApprovalLogs::class, 'order_id', 'id');
     }
 
     public function setPackingAttribute($value)

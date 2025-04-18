@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Carton;
 use App\Models\Order;
+use App\Models\PackingTypeCarton;
 use App\Models\Polybag;
 use App\Services\FormService;
 use App\View\Components\Form;
@@ -34,11 +35,13 @@ class FormController extends Controller
     public function dataGet($id)
     {
         $session = session('user');
+        $packing_type = PackingTypeCarton::all();
         $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
 
         $data = [
             'session' => $session,
             'order' => $order,
+            'packing_type' => $packing_type,
         ];
 
         return view('data', $data);
@@ -85,7 +88,7 @@ class FormController extends Controller
         
         
         $pdf = Pdf::loadView('cetak', $data);
-        return $pdf->download('order-'.$id.'.pdf');        
+        return $pdf->download('PO_Number - ' . $id . '.pdf');
     }
 
     public function dataCreatePolybag(Request $request)
@@ -219,6 +222,7 @@ class FormController extends Controller
     {
         $session = session('user');
 
+        $packing_type = PackingTypeCarton::all();
         $order = Order::with(['polybags', 'cartons'])->where('po_no', $po_no)->first();
         $polybag = Polybag::where('id', $id)->first();
         $carton = Carton::where('order_id', $order->id)->first();
@@ -228,41 +232,9 @@ class FormController extends Controller
             'order' => $order,
             'polybag' => $polybag,
             'carton' => $carton,
+            'packing_type' => $packing_type,
         ];
 
         return view('edit-carton', $data);
-    }
-
-
-    public function editForm($id)
-    {
-        $session = session('user');
-
-        $order = Order::find($id);
-
-        $data = [
-            'session' => $session,
-            'order' => $order,
-        ];
-
-        return view('edit-form', $data);
-    }
-
-
-    public function formUpdate(Request $request)
-    {
-        $session = session('user');
-        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
-
-
-        $formService = new FormService();
-        $validatedData = $formService->validateOrder($request->all());
-
-        // Update order
-        $updated = $formService->updateOrder($order, $validatedData, $session);
-
-        return $updated
-            ? redirect()->route('index')->with('success', 'Form successfully updated!')
-            : redirect()->back()->withInput()->with('error', 'Form update failed!');
     }
 }

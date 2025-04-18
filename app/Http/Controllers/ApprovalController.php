@@ -63,7 +63,7 @@ class ApprovalController extends Controller
                 'order_id'       => $validated['order_id'],
                 'user_id'        => $session->id,
                 'status'         => $status,
-                'signature_path' => $signaturePath,
+                'signature' => $signaturePath,
             ]);
         }
 
@@ -73,18 +73,12 @@ class ApprovalController extends Controller
             'user_id'        => $session->id,
             'status'         => $status,
             'notes'          => $validated['approval'] === 'tolak' ? $validated['notes'] : null,
-            'signature_path' => $signaturePath,
+            'signature' => $signaturePath,
         ]);
 
 
         if ($validated['approval'] === 'tolak') {
             Order::where('id', $validated['order_id'])->update([
-                'merchandiser'       => null,
-                'merchandiser_date'  => null,
-                'follow_up'          => null,
-                'follow_up_date'     => null,
-                'purchasing'         => null,
-                'purchasing_date'    => null,
                 'status'             => $status,
             ]);
         }

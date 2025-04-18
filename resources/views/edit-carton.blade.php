@@ -14,7 +14,8 @@
                     {{ session('error') }}
                 </div>
                 @endif
-                <x-carton-edit-form :order="$order" :polybag="$polybag" :carton="$carton"></x-carton-edit-form>
+                <x-carton-edit-form :order="$order" :polybag="$polybag" :carton="$carton" :packing_type="$packing_type">
+                </x-carton-edit-form>
             </div>
         </div>
         <x-js></x-js>
