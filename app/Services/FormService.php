@@ -36,6 +36,7 @@ class FormService
                 'status'         => 1,
             ]);
 
+
             DB::commit();
             return $order;
         } catch (\Throwable $e) {
@@ -46,7 +47,6 @@ class FormService
 
     public function updateOrder($order, array $validatedData, $session)
     {
-
         DB::beginTransaction();
         try {
             $tes = $order->update([
@@ -67,8 +67,13 @@ class FormService
                 'created_by'       => $session->name,
                 'created_date'     => Carbon::now(),
                 'status'           => 1,
+                'merchandiser'     => null,
+                'merchandiser_date' => null,
+                'follow_up'        => null,
+                'follow_up_date'   => null,
+                'purchasing'       => null,
+                'purchasing_date'  => null,
             ]);
-
 
             DB::commit();
             return true;
@@ -80,7 +85,7 @@ class FormService
 
 
     public function createPolybag(array $validatedData): Polybag
-    
+
     {
         DB::beginTransaction();
         try {
@@ -122,7 +127,9 @@ class FormService
                 'qty'         => $validatedData['qty'],
                 'weight'      => $validatedData['weight'],
                 'total_order' => $validatedData['total_order'],
+                'packing_type' => $validatedData['packing_type'],
             ]);
+
 
             DB::commit();
             return $carton->order_id;
@@ -176,6 +183,7 @@ class FormService
             'qty'         => $validated['qty'],
             'weight'      => $validated['weight'],
             'total_order' => $validated['total_order'],
+            'packing_type' => $validated['packing_type'],
         ])->save();
 
         return true;
@@ -201,6 +209,12 @@ class FormService
             'plastic_quality' => 'required|integer',
             'thickness'    => 'required|string',
             'print_warning' => 'required|string',
+            'merchandiser' => 'nullable',
+            'merchandiser_date' => 'nullable',
+            'follow_up' => 'nullable',
+            'follow_up_date' => 'nullable',
+            'purchasing' => 'nullable',
+            'purchasing_date' => 'nullable',
         ]);
 
         if ($validator->fails()) {
@@ -257,6 +271,7 @@ class FormService
             'qty'            => 'required|integer',
             'weight'         => 'required|string',
             'total_order'    => 'required|integer',
+            'packing_type'    => 'required|integer',
         ]);
 
         if ($validator->fails()) {

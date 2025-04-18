@@ -16,7 +16,7 @@
                 </div>
                 @endif
 
-                <x-data-form :order="$order" />
+                <x-data-form :order="$order" :packing_type="$packing_type" />
 
                 <hr class="my-4" style="height: 2px; background-color: black; border: none;">
 
@@ -125,6 +125,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Packing Type</th>
                                             <th>Send Date</th>
                                             <th>Packing</th>
                                             <th>Quality</th>
@@ -167,6 +168,7 @@
                                         </div>
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $carton->packingType->name }}</td>
                                             <td>{{ $carton->send }}</td>
                                             <td>{{ $carton->packing }}</td>
                                             <td>{{ $carton->quality }}</td>

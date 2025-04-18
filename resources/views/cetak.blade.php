@@ -167,29 +167,29 @@
     <tr>
       @php
       $packingOptions = [
-          1 => 'Base',
-          2 => 'Hanger Lubang 1',
-          3 => 'Hanger Lubang 2',
-          4 => 'Lidah',
-          5 => 'Gusset',
-          6 => 'Hanger',
+      1 => 'Base',
+      2 => 'Hanger Lubang 1',
+      3 => 'Hanger Lubang 2',
+      4 => 'Lidah',
+      5 => 'Gusset',
+      6 => 'Hanger',
       ];
-  
-      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
-  @endphp
-  
-  <td colspan="7" class="check">
-      @foreach($packingOptions as $value => $label)
-          <label style="margin-right: 10px;">
-              <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
-              {{ $label }}
-          </label>
-      @endforeach
-  </td>
-  
-  
 
-  
+      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
+      @endphp
+
+      <td colspan="7" class="check">
+        @foreach($packingOptions as $value => $label)
+        <label style="margin-right: 10px;">
+          <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
+          {{ $label }}
+        </label>
+        @endforeach
+      </td>
+
+
+
+
 
     </tr>
   </table>
@@ -367,10 +367,22 @@
         Lembar 1 (Putih); Lembar 2 (Hijau); Kentan: Lembar 3 (Hijau); PL: Lembar 4 (Hijau); DA<br>
         145/R2/MKT-01/F54/14</span>
     </div>
-<!-- Button Validate -->
-<div class="col-6 text-end px-5">
-  <button id="validateButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">Validate</button>
-</div>
+
+    @php
+    @endphp
+
+    @if (
+    ((int) $session->role == 1 && in_array($order->status, [1, -2, -3]) && is_null($order->merchandiser)) ||
+    ((int) $session->role == 2 && $order->status == 1 && !is_null($order->merchandiser)) ||
+    ((int) $session->role == 3 && $order->status == 2)
+    )
+    <div class="col-6 text-end px-5">
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#approvalModal">Validate</button>
+    </div>
+    @endif
+
+
+  </div>
 
 <!-- Modal -->
 <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
