@@ -129,13 +129,15 @@
   }
 </style>
 @if(isset($isPdf) && $isPdf)
-  <style>
-    /* Styling khusus PDF */
-    .btn, .modal, .no-print {
-      display: none !important;
-    }
+<style>
+  /* Styling khusus PDF */
+  .btn,
+  .modal,
+  .no-print {
+    display: none !important;
+  }
 
-      body {
+  body {
     font-family: Arial, sans-serif;
     font-size: 12px;
     margin: 20px;
@@ -253,7 +255,7 @@
     padding: 3px;
     text-align: center;
   }
-  </style>
+</style>
 @endif
 
 
@@ -295,51 +297,51 @@
     <tr>
       @php
       $packingOptions = [
-          1 => 'Base',
-          2 => 'Hanger Lubang 1',
-          3 => 'Hanger Lubang 2',
-          4 => 'Lidah',
-          5 => 'Gusset',
-          6 => 'Hanger',
+      1 => 'Base',
+      2 => 'Hanger Lubang 1',
+      3 => 'Hanger Lubang 2',
+      4 => 'Lidah',
+      5 => 'Gusset',
+      6 => 'Hanger',
       ];
-  
-      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
-  @endphp
-  
-  <td colspan="7" class="check">
-      @foreach($packingOptions as $value => $label)
-          <label style="margin-right: 10px;">
-              <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
-              {{ $label }}
-          </label>
-      @endforeach
-  </td>
-  
-  
 
-  
+      $selectedPacking = is_array($order->packing) ? $order->packing : json_decode($order->packing, true);
+      @endphp
+
+      <td colspan="7" class="check">
+        @foreach($packingOptions as $value => $label)
+        <label style="margin-right: 10px;">
+          <input type="checkbox" disabled {{ in_array($value, $selectedPacking ?? []) ? 'checked' : '' }}>
+          {{ $label }}
+        </label>
+        @endforeach
+      </td>
+
+
+
+
 
     </tr>
   </table>
   @php
   $groupedPolybag = $order->polybags->groupBy('pack')->take(3);
-@endphp
+  @endphp
 
-@foreach ($groupedPolybag as $pack => $polybags)
+  @foreach ($groupedPolybag as $pack => $polybags)
   <div class="flex">
     {{-- BAGIAN GAMBAR --}}
     <div class="sketsa-column">
-    @foreach ($order->polybags->take(3) as $polybag)
-  <div class="sketsa-box">
-    <div class="sketsa">
-      @if(isset($isPdf) && $isPdf)
-        <img style="width: 200px;" src="{{ public_path('storage/' . $polybag->image) }}" alt="Polybag Image">
-      @else
-        <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}" alt="Polybag Image">
-      @endif
-    </div>
-  </div>
-@endforeach
+      @foreach ($order->polybags->take(3) as $polybag)
+      <div class="sketsa-box">
+        <div class="sketsa">
+          @if(isset($isPdf) && $isPdf)
+          <img style="width: 200px;" src="{{ public_path('storage/' . $polybag->image) }}" alt="Polybag Image">
+          @else
+          <img style="width: 200px;" src="{{ asset('storage/' . $polybag->image) }}" alt="Polybag Image">
+          @endif
+        </div>
+      </div>
+      @endforeach
 
 
       <div class="sketsa-box">
@@ -352,7 +354,7 @@
     </div>
 
     {{-- BAGIAN TABEL --}}
-    <div class="table-column">  
+    <div class="table-column">
       <div class="form-table">
         <div class="flex-container">
           <span style="float:left;">Pack: {{ $pack }}</span>
@@ -370,95 +372,95 @@
           </thead>
           <tbody>
             @foreach ($polybags as $polybag)
-              <tr>
-                <td>{{ $polybag->size }}</td>
-                <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
-                <td>{{ $polybag->qty_order }}</td>
-                <td>{{ $polybag->isi }}</td>
-                <td>{{ $polybag->kebutuhan }}</td>
-                <td>{{ $polybag->qty_beli }}</td>
-              </tr>
+            <tr>
+              <td>{{ $polybag->size }}</td>
+              <td>{{ $polybag->length }} x {{ $polybag->width }}</td>
+              <td>{{ $polybag->qty_order }}</td>
+              <td>{{ $polybag->isi }}</td>
+              <td>{{ $polybag->kebutuhan }}</td>
+              <td>{{ $polybag->qty_beli }}</td>
+            </tr>
             @endforeach
           </tbody>
         </table>
       </div>
     </div>
   </div>
-@endforeach
+  @endforeach
 
-<p></p>
-<!-- Notes -->
-<div class="note">
-  <div class="note-box">
-    <strong>Notes:</strong><br>
-    <ul style="margin-top: 5px; padding-left: 15px;">
-      @php
+  <p></p>
+  <!-- Notes -->
+  <div class="note">
+    <div class="note-box">
+      <strong>Notes:</strong><br>
+      <ul style="margin-top: 5px; padding-left: 15px;">
+        @php
         $peChecked = $order->plastic_quality === '1' ? '☑' : '☐';
         $ppChecked = $order->plastic_quality === '2' ? '☑' : '☐';
-      @endphp
+        @endphp
 
-      <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
-      <li><strong>KETEBALAN:</strong> {{ $order->thickness }}</li>
-      <li><strong>PRINT WARNING:</strong> {{ $order->print_warning }}</li>
-    </ul>
+        <li><strong>KUALITAS PLASTIK:</strong> {{ $peChecked }} PE {{ $ppChecked }} PP</li>
+        <li><strong>KETEBALAN:</strong> {{ $order->thickness }}</li>
+        <li><strong>PRINT WARNING:</strong> {{ $order->print_warning }}</li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<hr>
+  <hr>
 
-<!-- B. Carton Order Form -->
-<p class="subheader">B. CARTON ORDER FORM</p>
-<table class="noborder">
-  <tr>
-    <td><strong>Ref No. :</strong> GM</td>
-    <td></td>
-    <td><strong>Buyer:</strong> {{ $order->buyer }}</td>
-  </tr>
-  <tr>
-    <td><strong>ON STYLE:</strong> {{ $order->style }}</td>
-    <td></td>
-    <td><strong>Gmt. Delivery:</strong> {{ $order->gmt_delivery }}</td>
-  </tr>
-  <tr>
-    <td><strong>QTY Garment:</strong> {{ $order->qty_garment }}</td>
-    <td></td>
-    @php
+  <!-- B. Carton Order Form -->
+  <p class="subheader">B. CARTON ORDER FORM</p>
+  <table class="noborder">
+    <tr>
+      <td><strong>Ref No. :</strong> GM</td>
+      <td></td>
+      <td><strong>Buyer:</strong> {{ $order->buyer }}</td>
+    </tr>
+    <tr>
+      <td><strong>ON STYLE:</strong> {{ $order->style }}</td>
+      <td></td>
+      <td><strong>Gmt. Delivery:</strong> {{ $order->gmt_delivery }}</td>
+    </tr>
+    <tr>
+      <td><strong>QTY Garment:</strong> {{ $order->qty_garment }}</td>
+      <td></td>
+      @php
       $seaChecked = $order->shipment === '1' ? '☑' : '☐';
       $airChecked = $order->shipment === '2' ? '☑' : '☐';
-    @endphp
-    <td><strong>SHIPMENT MODE:</strong> {{ $seaChecked }} SEA {{ $airChecked }} AIR</td>
-  </tr>
-</table>
+      @endphp
+      <td><strong>SHIPMENT MODE:</strong> {{ $seaChecked }} SEA {{ $airChecked }} AIR</td>
+    </tr>
+  </table>
 
-<table>
-  <tr>
-    <td colspan="9">
-      <strong>
-        PO NO.: 
-        <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-          {{ $order->po_no ?? ' ' }}
-        </span>
-        &nbsp;&nbsp;
-        KIRIM TGL. : 
-        <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
-          {{ $order->arrived_at ?? ' ' }}
-        </span>
-      </strong>
-    </td>
-  </tr>
-  <tr>
-    <th></th>
-    <th>PACKING</th>
-    <th>QUALITY</th>
-    <th>UKURAN (P x L x T)</th>
-    <th>VOLUME</th>
-    <th>ISI</th>
-    <th>BERAT</th>
-    <th>TOTAL PESAN</th>
-    <th>SATUAN</th>
-  </tr>
+  <table>
+    <tr>
+      <td colspan="9">
+        <strong>
+          PO NO.:
+          <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+            {{ $order->po_no ?? ' ' }}
+          </span>
+          &nbsp;&nbsp;
+          KIRIM TGL. :
+          <span style="display:inline-block; border-bottom: 1px dotted #000; min-width: 200px;">
+            {{ $order->arrived_at ?? ' ' }}
+          </span>
+        </strong>
+      </td>
+    </tr>
+    <tr>
+      <th></th>
+      <th>PACKING</th>
+      <th>QUALITY</th>
+      <th>UKURAN (P x L x T)</th>
+      <th>VOLUME</th>
+      <th>ISI</th>
+      <th>BERAT</th>
+      <th>TOTAL PESAN</th>
+      <th>SATUAN</th>
+    </tr>
 
-  @forelse ($order->cartons as $carton)
+    @forelse ($order->cartons as $carton)
     <tr>
       <td>{{ $carton->packingType->name}}</td>
       <td>{{ $carton->packing }}</td>
@@ -470,20 +472,20 @@
       <td>{{ $carton->total_order }}</td>
       <td>{{ $carton->packingType->satuan}}</td>
     </tr>
-      <td>BOX</td>
+    <td>BOX</td>
     </tr>
-  @empty
+    @empty
     <tr>
       <td colspan="9" style="text-align: center;">Tidak ada data carton</td>
     </tr>
-  @endforelse
+    @endforelse
 
-  <!-- Alamat & Keterangan -->
-  <tr>
-    <td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td>
-    <td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</td>
-  </tr>
-</table>
+    <!-- Alamat & Keterangan -->
+    <tr>
+      <td><strong>ALAMAT KIRIM:</strong> {{ $order->location }}</td>
+      <td colspan="8"><strong>KETERANGAN:</strong> SAMBUNGKAN SISI CARTON PAKAI LEM</td>
+    </tr>
+  </table>
 
   <div class="row">
     <div class="col-6">
@@ -492,11 +494,7 @@
         Lembar 1 (Putih); Lembar 2 (Hijau); Kentan: Lembar 3 (Hijau); PL: Lembar 4 (Hijau); DA<br>
         145/R2/MKT-01/F54/14</span>
     </div>
-<!-- Button Validate -->
-@if (
-
-    @php
-    @endphp
+    <!-- Button Validate -->
 
     @if (
     ((int) $session->role == 1 && in_array($order->status, [1, -2, -3]) && is_null($order->merchandiser)) ||
@@ -511,59 +509,59 @@
 
   </div>
 
-<!-- Modal -->
-<div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <form action="{{ route('create-approval') }}" method="POST" enctype="multipart/form-data" id="approvalForm">
-        @csrf
-        <input type="hidden" name="order_id" id="approvalOrderId">
+  <!-- Modal -->
+  <div class="modal fade" id="approvalModal" tabindex="-1" aria-labelledby="approvalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form action="{{ route('create-approval') }}" method="POST" enctype="multipart/form-data" id="approvalForm">
+          @csrf
+          <input type="hidden" name="order_id" id="approvalOrderId">
 
-        <div class="modal-header">
-          <h5 class="modal-title" id="approvalModalLabel">Validation Approval</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-        </div>
-
-        <div class="modal-body">
-          @if ($session->role == 1)
-          <input type="hidden" name="approval" value="setuju">
-          <div class="mb-3" id="signatureSection">
-            <label for="signature" class="form-label fs-7 text-black">Signature</label>
-            <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png" required>
-          </div>
-          @else
-          <div class="mb-3">
-            <label for="approvalStatus" class="form-label fs-7 text-black">Status</label>
-            <select class="form-select" id="approvalStatus" name="approval" required>
-              <option value="" selected disabled>-- Choose Approval --</option>
-              <option value="setuju">Setuju</option>
-              <option value="tolak">Tolak</option>
-            </select>
+          <div class="modal-header">
+            <h5 class="modal-title" id="approvalModalLabel">Validation Approval</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
           </div>
 
-          {{-- Notes kalau ditolak --}}
-          <div class="mb-3 d-none" id="notesSection">
-            <label for="notes" class="form-label fs-7 text-black">Notes</label>
-            <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+          <div class="modal-body">
+            @if ($session->role == 1)
+            <input type="hidden" name="approval" value="setuju">
+            <div class="mb-3" id="signatureSection">
+              <label for="signature" class="form-label fs-7 text-black">Signature</label>
+              <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png" required>
+            </div>
+            @else
+            <div class="mb-3">
+              <label for="approvalStatus" class="form-label fs-7 text-black">Status</label>
+              <select class="form-select" id="approvalStatus" name="approval" required>
+                <option value="" selected disabled>-- Choose Approval --</option>
+                <option value="setuju">Setuju</option>
+                <option value="tolak">Tolak</option>
+              </select>
+            </div>
+
+            {{-- Notes kalau ditolak --}}
+            <div class="mb-3 d-none" id="notesSection">
+              <label for="notes" class="form-label fs-7 text-black">Notes</label>
+              <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+            </div>
+
+            {{-- Signature kalau disetujui --}}
+            <div class="mb-3 d-none" id="signatureSection">
+              <label for="signature" class="form-label fs-7 text-black">Signature</label>
+              <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png">
+            </div>
+            @endif
           </div>
 
-          {{-- Signature kalau disetujui --}}
-          <div class="mb-3 d-none" id="signatureSection">
-            <label for="signature" class="form-label fs-7 text-black">Signature</label>
-            <input type="file" class="form-control" name="signature" id="signature" accept=".jpg,.jpeg,.png">
+          <div class="modal-footer">
+            <input type="hidden" name="order_id" value="{{ $order->id }}">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
-          @endif
-        </div>
-
-        <div class="modal-footer">
-          <input type="hidden" name="order_id" value="{{ $order->id }}">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
 
 
@@ -573,8 +571,8 @@
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
   </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const validateButton = document.getElementById('validateButton');
     const approvalForm = document.getElementById('approvalForm');
     const signatureInput = document.getElementById('signature');
@@ -601,38 +599,40 @@
       }
     });
   });
-</script>
+  </script>
 
 
-@php
-    $signatures = [
-        1 => 'MD',
-        2 => 'Follow Up',
-        3 => 'Purchasing',
-    ];
-@endphp
+  @php
+  $signatures = [
+  1 => 'MD',
+  2 => 'Follow Up',
+  3 => 'Purchasing',
+  4 => 'Checker',
+  5 => 'Creator',
+  ];
+  @endphp
 
-<table class="noborder sign-row">
-  <tr>
-    @foreach ($signatures as $label)
+  <table class="noborder sign-row">
+    <tr>
+      @foreach ($signatures as $label)
       <td>{{ $label }}</td>
-    @endforeach
-  </tr>
-  <tr>
-    @foreach ($signatures as $status => $label)
+      @endforeach
+    </tr>
+    <tr>
+      @foreach ($signatures as $status => $label)
       @php
-          $log = $order->approval->firstWhere('status', $status);
+      $log = $order->approval->firstWhere('status', $status);
       @endphp
       <td>
         @if($log && $log->signature)
-          <img src="{{ asset('storage/' . $log->signature) }}" width="100">
+        <img src="{{ asset('storage/' . $log->signature) }}" width="100">
         @else
-          (...................)
+        (...................)
         @endif
       </td>
-    @endforeach
-  </tr>
-</table>
+      @endforeach
+    </tr>
+  </table>
 
 
 

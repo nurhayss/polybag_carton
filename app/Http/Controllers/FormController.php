@@ -51,15 +51,15 @@ class FormController extends Controller
     public function printData($id)
     {
         $session = session('user');
-    
+
         // Load order with related data
         $order = Order::with(['polybags', 'cartons', 'approval'])->where('po_no', $id)->firstOrFail();
-    
+
         // Polybag image handling
         $imagePath = $order->polybags->isNotEmpty()
             ? asset('storage/' . $order->polybags->first()->image)
             : asset('storage/polybag_images/default-image.jpg');
-    
+
         // Data for the view
         $data = [
             'session' => $session,
@@ -67,13 +67,13 @@ class FormController extends Controller
             'logo' => asset('/assets/images/logo-polybag.png'),
             'image' => $imagePath,
         ];
-    
+
         return view('cetak', $data);
     }
-    
 
-    
-    
+
+
+
 
     public function pdfData($id)
     {
@@ -87,17 +87,14 @@ class FormController extends Controller
             'image' => $order->polybags->isNotEmpty() ? public_path('storage/' . $order->polybags->first()->image) : null,
             'isPdf' => true // ini kuncinya
         ];
-        
-        
+
+
         $pdf = Pdf::loadView('cetak', $data)->setPaper('Legal', 'portrait');
         return $pdf->download('PO_Number - ' . $id . '.pdf');
 
-        
->>>>>>>>> Temporary merge branch 2
+
         $pdf = Pdf::loadView('cetak', $data);
         return $pdf->download('PO_Number - ' . $id . '.pdf');
-
-        
     }
 
     public function dataCreatePolybag(Request $request)
