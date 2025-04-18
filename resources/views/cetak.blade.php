@@ -593,52 +593,37 @@
 </script>
 
 
+@php
+    $signatures = [
+        1 => 'MD',
+        2 => 'Follow Up',
+        3 => 'Purchasing',
+    ];
+@endphp
+
 <table class="noborder sign-row">
   <tr>
-    <td>Follow Up</td>
-    <td>Marketing</td>
-    <td>Diperiksa Oleh</td>
-    <td>Purchasing</td>
-    <td>Dibuat Oleh</td>
+    @foreach ($signatures as $label)
+      <td>{{ $label }}</td>
+    @endforeach
   </tr>
   <tr>
-    <td>
-      @if(isset($approvals['follow_up']) && $approvals['follow_up']->signature)
-        <img src="{{ asset('storage/' . $approvals['follow_up']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['marketing']) && $approvals['marketing']->signature)
-        <img src="{{ asset('storage/' . $approvals['marketing']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['checker']) && $approvals['checker']->signature)
-        <img src="{{ asset('storage/' . $approvals['checker']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['purchasing']) && $approvals['purchasing']->signature)
-        <img src="{{ asset('storage/' . $approvals['purchasing']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
-    <td>
-      @if(isset($approvals['creator']) && $approvals['creator']->signature)
-        <img src="{{ asset('storage/' . $approvals['creator']->signature) }}" width="100">
-      @else
-        (...................)
-      @endif
-    </td>
+    @foreach ($signatures as $status => $label)
+      @php
+          $log = $order->approval->firstWhere('status', $status);
+      @endphp
+      <td>
+        @if($log && $log->signature)
+          <img src="{{ asset('storage/' . $log->signature) }}" width="100">
+        @else
+          (...................)
+        @endif
+      </td>
+    @endforeach
   </tr>
 </table>
+
+
 
 
 </body>

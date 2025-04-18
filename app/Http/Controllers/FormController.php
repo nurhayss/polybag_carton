@@ -6,6 +6,7 @@ use App\Models\Carton;
 use App\Models\Order;
 use App\Models\PackingTypeCarton;
 use App\Models\Polybag;
+use App\Models\ApprovalLogs;
 use App\Services\FormService;
 use App\View\Components\Form;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -48,26 +49,28 @@ class FormController extends Controller
     }
 
     public function printData($id)
-{
-    $session = session('user');
-    $order = Order::with(['polybags', 'cartons'])->where('po_no', $id)->first();
-
-    if ($order->polybags->isNotEmpty()) {
-        $image = $order->polybags->first()->image;
-        $imagePath = asset('storage/' . $image);
-    } else {
-        $imagePath = asset('storage/polybag_images/default-image.jpg');
+    {
+        $session = session('user');
+    
+        // Load order with related data
+        $order = Order::with(['polybags', 'cartons', 'approval'])->where('po_no', $id)->firstOrFail();
+    
+        // Polybag image handling
+        $imagePath = $order->polybags->isNotEmpty()
+            ? asset('storage/' . $order->polybags->first()->image)
+            : asset('storage/polybag_images/default-image.jpg');
+    
+        // Data for the view
+        $data = [
+            'session' => $session,
+            'order' => $order,
+            'logo' => asset('/assets/images/logo-polybag.png'),
+            'image' => $imagePath,
+        ];
+    
+        return view('cetak', $data);
     }
-
-    $data = [
-        'session' => $session,
-        'order' => $order,
-        'logo' => asset('/assets/images/logo-polybag.png'),
-        'image' => $imagePath,
-    ];
-
-    return view('cetak', $data);
-}
+    
 
     
     
