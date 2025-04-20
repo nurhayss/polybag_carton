@@ -71,7 +71,19 @@ class FormController extends Controller
         return view('cetak', $data);
     }
 
+    public function editForm($id)
+    {
+        $session = session('user');
 
+        $order = Order::where('id', $id)->first();
+        // dd($order);
+        $data = [
+            'session' => $session,
+            'order' => $order,
+        ];
+
+        return view('edit-form', $data);
+    }
 
 
 
@@ -121,6 +133,23 @@ class FormController extends Controller
         return $polybag
             ? redirect()->route('data-get', ['po_no' => $po_no])->with('polybag_success', 'Data Polybag berhasil disimpan!')
             : redirect()->back()->withInput()->with('error', 'Gagal menyimpan data Polybag!');
+    }
+
+    public function formUpdate(Request $request)
+    {
+        $session = session('user');
+        $order = Order::with(['polybags', 'cartons'])->findOrFail($request->id);
+
+
+        $formService = new FormService();
+        $validatedData = $formService->validateOrder($request->all());
+
+        // Update order
+        $updated = $formService->updateOrder($order, $validatedData, $session);
+
+        return $updated
+            ? redirect()->route('index')->with('success', 'Form successfully updated!')
+            : redirect()->back()->withInput()->with('error', 'Form update failed!');
     }
 
 

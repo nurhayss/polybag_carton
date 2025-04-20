@@ -64,7 +64,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label fw-semibold">PO Number</label>
-                        <input type="text" class="form-control" name="po_no" value="{{ $order->po_no }}">
+                        <input type="text" class="form-control" name="po_no" value="{{ $order->po_no }}" readonly>
                     </div>
                 </div>
             </div>

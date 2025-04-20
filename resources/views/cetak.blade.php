@@ -635,6 +635,26 @@
   </table>
 
 
+  @if($order->status == 3 && $session->role == 1 || $session->role == 3) {{-- ganti 'admin' sesuai role yang boleh print
+  --}}
+  <script>
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'p') {
+            e.preventDefault();
+            alert("Kamu tidak punya izin untuk mencetak dokumen ini.");
+        }
+    });
+
+    // Optional: hide tombol print kalau ada
+    document.addEventListener('DOMContentLoaded', function() {
+        const printBtn = document.querySelector('.print-btn');
+        if (printBtn) {
+            printBtn.style.display = 'none';
+        }
+    });
+  </script>
+  @endif
+
 
 
 </body>
